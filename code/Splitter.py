@@ -49,7 +49,7 @@ class CV(Splitter):
             for j in range(k):
                 if i != j:
                     train_set.append(data_set[j])
-
+        return train_set,test_set
 
 # 自助法
 class BootStrapping(Splitter):
