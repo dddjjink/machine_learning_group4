@@ -147,21 +147,18 @@ class SVM(Model):
             E1 = self.E[i1]
             E2 = self.E[i2]
             # eta=K11+K22-2K12
-            eta = self.kernel(self.X[i1], self.X[i1]) + self.kernel(self.X[i2], self.X[i2]) - 2 * self.kernel(
-                self.X[i1], self.X[i2])
+            eta = self.kernel(self.X[i1], self.X[i1]) + self.kernel(self.X[i2], self.X[i2]) - 2 * self.kernel(self.X[i1], self.X[i2])
             if eta <= 0:
                 # print('eta <= 0')
                 continue
 
-            alpha2_new_unc = self.alpha[i2] + self.Y[i2] * (E1 - E2) / eta  # 此处有修改，根据书上应该是E1 - E2，书上130-131页
+            alpha2_new_unc = self.alpha[i2] + self.Y[i2] * (E1 - E2) / eta
             alpha2_new = self.clip_alpha(alpha2_new_unc, L, H)
 
             alpha1_new = self.alpha[i1] + self.Y[i1] * self.Y[i2] * (self.alpha[i2] - alpha2_new)
 
-            b1_new = -E1 - self.Y[i1] * self.kernel(self.X[i1], self.X[i1]) * (alpha1_new - self.alpha[i1]) - self.Y[
-                i2] * self.kernel(self.X[i2], self.X[i1]) * (alpha2_new - self.alpha[i2]) + self.b
-            b2_new = -E2 - self.Y[i1] * self.kernel(self.X[i1], self.X[i2]) * (alpha1_new - self.alpha[i1]) - self.Y[
-                i2] * self.kernel(self.X[i2], self.X[i2]) * (alpha2_new - self.alpha[i2]) + self.b
+            b1_new = -E1 - self.Y[i1] * self.kernel(self.X[i1], self.X[i1]) * (alpha1_new - self.alpha[i1]) - self.Y[i2] * self.kernel(self.X[i2], self.X[i1]) * (alpha2_new - self.alpha[i2]) + self.b
+            b2_new = -E2 - self.Y[i1] * self.kernel(self.X[i1], self.X[i2]) * (alpha1_new - self.alpha[i1]) - self.Y[i2] * self.kernel(self.X[i2], self.X[i2]) * (alpha2_new - self.alpha[i2]) + self.b
 
             if 0 < alpha1_new < self.C:
                 b_new = b1_new
