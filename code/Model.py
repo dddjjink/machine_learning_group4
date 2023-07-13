@@ -7,7 +7,104 @@ class Model:
 
 # 线性模型，线性回归->线性，逻辑回归->二分类
 class LinearRegression(Model):
-    pass
+    def __init__(self):
+            """初始化Linear Regression模型"""
+
+            # 系数向量（θ1,θ2,.....θn）
+            self.coef_ = None
+            # 截距 (θ0)
+            self.interception_ = None
+            # θ向量
+            self._theta = None
+
+    def fit(self, X_train, y_train):
+            """根据训练数据集X_train，y_train 训练Linear Regression模型"""
+            assert X_train.shape[0] == y_train.shape[0], \
+                "the size of X_train must be equal to the size of y_train"
+            # np.ones((len(X_train), 1)) 构造一个和X_train 同样行数的，只有一列的全是1的矩阵
+            # np.hstack 拼接矩阵
+            X_b = np.hstack([np.ones((len(X_train), 1)), X_train])
+            # X_b.T 获取矩阵的转置
+            # np.linalg.inv() 获取矩阵的逆
+            # dot() 矩阵点乘
+            self._theta = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y_train)
+            self.interception_ = self._theta[0]
+            self.coef_ = self._theta[1:]
+
+            return self
+
+    def predict(self, X_predict):
+            """给定待预测数据集X_predict，返回表示X_predict的结果向量"""
+            assert self.coef_ is not None and self.interception_ is not None, \
+                "must fit before predict"
+            assert X_predict.shape[1] == len(self.coef_), \
+                "the feature number of X_predict must be equal to X_train"
+
+            X_b = np.hstack([np.ones((len(X_predict), 1)), X_predict])
+            return X_b.dot(self._theta)
+
+    def score(self, X_test, y_test):
+            """根据测试数据集 X_test 和 y_test 确定当前模型的准确度"""
+            y_predict = self.predict(X_test)
+            return r2_score(y_test, y_predict)
+            # from sklearn.metrics import r2_score  r2<=1  r2越大越好
+
+class  LogisticRegression(Model):
+    def __init__(self):
+        """初始化"""
+        # 系数向量（θ1,θ2,.....θn）
+        self.coef_ = None
+        # 截距 (θ0)
+        self.intercept_ = None
+        # θ向量
+        self._theta = None
+
+    def _sigmoid(self, t):
+        """激活函数"""
+        return 1 / (1 + np.exp(-t))
+
+    def fit(self, x_train, y_trian, n):
+
+        def J(theta, x_b, y):
+            y_hat = self._sigmoid(x_b.dot(theta))
+
+            return -np.sum(y * np.log(y_hat) + (1 - y) * np.log(1 - y_hat)) / len(y)
+
+        def dJ(theta, x_b, y):
+            return x_b.T.dot(self._sigmoid(x_b.dot(theta)) - y) / len(y)
+
+        def gradient_descent(x_b, y, initial_theta, alpha=0.01, n_iters=1e4, epsilon=1e-8):
+            theta = initial_theta
+            iter = 0
+            while iter < n_iters:
+                gradient = dJ(theta, x_b, y)
+                last_theta = theta
+                theta = theta - alpha * gradient
+
+                if abs(J(last_theta, x_b, y) - J(theta, x_b, y)) < epsilon:
+                    break
+
+                iter += 1
+            return last_theta
+
+        x_b = np.hstack([np.ones((len(x_train), 1)), x_train])
+        initail_theta = np.zeros(x_b.shape[1])
+
+        self._theta = gradient_descent(x_b, y_trian, initail_theta, n_iters=n)
+        self.intercept_ = self._theta[0]
+        self.coef_ = self._theta[1:]
+
+    def predict_prob(self, x_test):
+        x_b = np.hstack([np.ones((len(x_test), 1)), x_test])
+        return self._sigmoid(x_b.dot(self._theta))
+
+    def predict(self, x_test):
+        prob = self.predict_prob(x_test)
+        return np.array(prob >= 0.5,dtype='int')
+
+    def score(self, x_test, y_test):
+        return np.sum(y_test == self.predict(x_test)) / len(y_test)
+
 
 
 # 决策树模型（ID3）->分类
@@ -140,7 +237,105 @@ class DecisionTree(Model):
 
 # 贝叶斯模型（贝叶斯分类器），朴素贝叶斯->分类
 class NaiveBayes(Model):
-    pass
+    '''朴素贝叶斯分类器'''
+    # 数据初步处理，转化成np.array类型
+    def __init__(self, data, label):
+        self.data = data  # 训练数据
+        self.label = label  # 训练数据类别
+        self.n = len(data)  # 数据样本个数
+        self.p = len(data[0])  # 属性个数
+        self.pCondition, self.pClass = self.train()
+
+    def Cal_class(self):
+        '''计算训练样本的类别'''
+        c = set()
+        for i in self.label:
+            c.add(i)
+        return c
+
+    def Cal_value(self, attr):
+        '''计算属性attr的可能取值'''
+        v = set()
+        for i in self.data[:, attr]:
+            v.add(i)
+        return v
+
+    def train(self):
+        '''计算P(c)与P(x|c)'''
+        str_type = type(np.array(['a'])[0])  # 用于后面属性数据类型的判断，此处为numpy.str类型
+        int_type = type(np.array([1])[0])  # numpy.int类型
+        float_type = type(np.array([1.1])[0])  # numpy.float类型
+        c = self.Cal_class()
+        pClass = {}  # 用于储存各类的概率P（c）
+        numClass = {}  # 用于储存各类的个数
+        pCondition = [{} for i in range(self.p)]  # 列表中每个字典用于储存对应属性的类条件概率；若为连续性，储存μ与σ
+        for i in range(self.n):
+            if self.label[i] not in pClass:
+                pClass[self.label[i]] = 1 / (self.n + len(c))  # 分子加1，为拉普拉斯修正
+                numClass[self.label[i]] = 0
+            pClass[self.label[i]] += 1 / (self.n + len(c))  # 统计各类出现的概率
+            numClass[self.label[i]] += 1  # 统计各类的数值
+        for j in range(self.p):
+            '''逐个属性计算'''
+            if type(self.data[0][j]) == str_type:
+                '''计算离散型属性的类条件概率'''
+                v = self.Cal_value(attr=j)
+                for i in range(self.n):
+                    if self.label[i] not in pCondition[j]:
+                        init_num = [1 / (pClass[self.label[i]] + len(v)) for i in range(len(v))]  # 初始数据，并采用拉普拉斯修正
+                        pCondition[j][self.label[i]] = dict(zip(v, init_num))  # 用于统计label[i]类下的j属性的条件概率
+                    pCondition[j][self.label[i]][self.data[i][j]] += 1 / (pClass[self.label[i]] + len(v))
+            elif type(self.data[0][j]) == float_type or int_type:
+                '''计算连续型属性的类条件概率'''
+                data_class = {}  # 储存该属性中各类对应的数据
+                for i in range(self.n):
+                    if self.label[i] not in data_class:
+                        data_class[self.label[i]] = [self.data[i][j]]
+                    else:
+                        data_class[self.label[i]].append(self.data[i][j])
+                for key in data_class.keys():
+                    miu, sigma = np.mean(data_class[key]), np.var(data_class[key])
+                    pCondition[j][key] = {'miu': miu, 'sigma': sigma}
+        return pCondition, pClass
+
+    def Cal_p(self, attr, x, c):
+        '''计算属性attr中值为x的c类条件概率：P(x|c)
+        attr:属性，值为0~p-1
+        x:值，为连续的数或离散的值
+        c:类'''
+        if 'miu' and 'sigma' in self.pCondition[attr][c]:
+            '''判断是否为连续型属性，此时是连续型属性'''
+            miu = self.pCondition[attr][c]['miu']
+            sigma = self.pCondition[attr][c]['sigma']
+            p = np.exp(-(x - miu) ** 2 / (2 * sigma)) / np.sqrt(2 * np.pi * sigma)
+            return p
+        else:
+            p = self.pCondition[attr][c][x]
+            return p
+
+    def predict(self, x):
+        '''根据一组数据x预测其属于哪一类
+        x:长度为p的列表或array类型'''
+        p = {}  # 储存属于各类的概率
+        for c in self.pClass.keys():
+            pc = np.log(self.pClass[c])
+            for i in range(self.p):
+                pc += np.log(self.Cal_p(attr=i, x=x[i], c=c))
+
+            p[c] = pc
+        maxp = max(p.values())  # 选取最大概率
+        for key, value in p.items():
+            if value == maxp:
+                return key
+
+    def test(self, testData, testLabel):
+        '''利用测试集测试模型准确性'''
+        n = len(testData)
+        correct = 0  # 统计正确的个数
+        for i in range(n):
+            if self.predict(testData[i]) == testLabel[i]:
+                correct += 1
+        return correct / n
 
 
 # KNN模型，K最近邻算法->回归、分类
@@ -325,12 +520,65 @@ class RandomForest(Model):
 
 # 降维算法，降维
 class DimensionalReduction(Model):
-    pass
+     """
+       主成份分析算法 PCA，非监督学习算法.
+       """
+
+    def __init__(self, n_components):
+        self.n_components = n_components
+        self.components = None
+        self.mean = None
+
+    def fit(self, X):
+        # Compute the mean of the data
+        self.mean = np.mean(X, axis=0)
+        # Center the data
+        X = X - self.mean
+        # Compute the covariance matrix
+        cov = np.cov(X.T)
+        # Compute the eigenvalues and eigenvectors
+        eigenvalues, eigenvectors = np.linalg.eig(cov)
+        # Sort the eigenvalues in descending order
+        eigenvectors = eigenvectors.T
+        idxs = np.argsort(eigenvalues)[::-1]
+        eigenvalues = eigenvalues[idxs]
+        eigenvectors = eigenvectors[idxs]
+        # Store the first n_components eigenvectors
+        self.components = eigenvectors[0:self.n_components]
+
+    def transform(self, X):
+        # Center the data
+        X = X - self.mean
+        # Project the data onto the components
+        return np.dot(X, self.components.T)
 
 
 # XGBOOST，梯度增强算法->分类
 class GradientBoosting(Model):
-    pass
+     def __init__(self, n_estimators=10, learning_rate=0.1, max_depth=2):
+        self.n_estimators = n_estimators
+        self.learning_rate = learning_rate
+        self.max_depth = max_depth
+        self.estimators = []
+
+    def fit(self, X, y):
+        n_samples = X.shape[0]
+        y_pred = np.full(n_samples, np.mean(y))
+
+        for _ in range(self.n_estimators):
+            residuals = y - y_pred
+            tree = DecisionTree(max_depth=self.max_depth)
+            tree.fit(X, residuals)
+
+            y_pred += self.learning_rate * tree.predict(X)
+            self.estimators.append(tree)
+
+    def predict(self, X):
+        y_pred = np.zeros(X.shape[0])
+        for tree in self.estimators:
+            y_pred += self.learning_rate * tree.predict(X)
+        return y_pred
+
 
 
 # CNN，梯度增强算法->分类
