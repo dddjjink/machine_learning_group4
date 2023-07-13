@@ -328,11 +328,7 @@ class DimensionalReduction(Model):
     pass
 
 
-# XGBOOST，梯度增强算法->分类
+# GBDT，梯度增强算法->分类
 class GradientBoosting(Model):
     pass
 
-
-# CNN，梯度增强算法->分类
-class CNN(Model):
-    pass
