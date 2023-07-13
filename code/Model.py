@@ -5,7 +5,7 @@ class Model:
     pass
 
 
-# 线性模型，线性回归->线性，逻辑回归->二分类
+# 线性模型，线性回归->分类
 class LinearRegression(Model):
     def __init__(self):
             """初始化Linear Regression模型"""
@@ -49,6 +49,9 @@ class LinearRegression(Model):
             return r2_score(y_test, y_predict)
             # from sklearn.metrics import r2_score  r2<=1  r2越大越好
 
+
+
+#逻辑回归->二分类
 class  LogisticRegression(Model):
     def __init__(self):
         """初始化"""
@@ -235,6 +238,7 @@ class DecisionTree(Model):
 
 
 
+
 # 贝叶斯模型（贝叶斯分类器），朴素贝叶斯->分类
 class NaiveBayes(Model):
     '''朴素贝叶斯分类器'''
@@ -338,6 +342,7 @@ class NaiveBayes(Model):
         return correct / n
 
 
+
 # KNN模型，K最近邻算法->回归、分类
 class KNN(Model):
     #计算每个点之间的距离
@@ -369,6 +374,8 @@ class KNN(Model):
                 class1[most]=1
         sortclass=sorted(class1.items(),key=operator.itemgetter(1),reverse=True)
         return sortclass
+
+
 
 # 支持向量机模型，分类
 class SVM(Model):
@@ -513,9 +520,14 @@ class SVM(Model):
         return right_count / len(X_test)
 
 
+
+
 # 随机森林模型，分类
 class RandomForest(Model):
     pass
+
+
+#K均值聚类算法
 
 
 # 降维算法，降维
@@ -551,6 +563,7 @@ class DimensionalReduction(Model):
         X = X - self.mean
         # Project the data onto the components
         return np.dot(X, self.components.T)
+
 
 
 # XGBOOST，梯度增强算法->分类
