@@ -568,31 +568,7 @@ class DimensionalReduction(Model):
 
 # XGBOOST，梯度增强算法->分类
 class GradientBoosting(Model):
-     def __init__(self, n_estimators=10, learning_rate=0.1, max_depth=2):
-        self.n_estimators = n_estimators
-        self.learning_rate = learning_rate
-        self.max_depth = max_depth
-        self.estimators = []
-
-    def fit(self, X, y):
-        n_samples = X.shape[0]
-        y_pred = np.full(n_samples, np.mean(y))
-
-        for _ in range(self.n_estimators):
-            residuals = y - y_pred
-            tree = DecisionTree(max_depth=self.max_depth)
-            tree.fit(X, residuals)
-
-            y_pred += self.learning_rate * tree.predict(X)
-            self.estimators.append(tree)
-
-    def predict(self, X):
-        y_pred = np.zeros(X.shape[0])
-        for tree in self.estimators:
-            y_pred += self.learning_rate * tree.predict(X)
-        return y_pred
-
-
+   
 
 # CNN，梯度增强算法->分类
 class CNN(Model):
