@@ -34,11 +34,11 @@ class CV(Splitter):
     def __init__(self, dataset):
         self.data: pd.DataFrame = dataset
 
-    def k_fold(self):
+        def k_fold(self,test_size):
         data = self.data  # 数据集
         data_set = []
         # k值
-        k = 1 / self.per  # per想代表训练集的比例
+        k = 1 / test_size  # per想代表训练集的比例
         for i in range(k):
             tmp = []
             j = i
