@@ -31,6 +31,9 @@ class HoldOut(Splitter):
 
 # 交叉验证法
 class CV(Splitter):
+    def __init__(self, dataset):
+        self.data: pd.DataFrame = dataset
+
     def k_fold(self):
         data = self.data  # 数据集
         data_set = []
