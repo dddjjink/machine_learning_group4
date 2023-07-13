@@ -35,7 +35,6 @@ class CV(Splitter):
         self.data: pd.DataFrame = dataset
 
         def k_fold(self,test_size):
-        data = self.data  # 数据集
         data_set = []
         # k值
         k = 1 / test_size  # per想代表训练集的比例
