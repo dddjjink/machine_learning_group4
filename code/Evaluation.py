@@ -183,8 +183,3 @@ class Distance(Evaluation):
 # 惯性
 class Inertia(Evaluation):
     pass
-
-
-# K均值聚类算法
-class KMeans(Evaluation):
-    pass
