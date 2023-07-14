@@ -2,6 +2,7 @@ import Model
 import numpy as np
 
 
+# 支持向量机模型，分类
 class SVM(Model):
     def __init__(self, max_iter=100, kernel='linear'):
         self.max_iter = max_iter
