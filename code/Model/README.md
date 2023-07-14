@@ -1,2 +1,2 @@
 # Model
-- SVM模型：李青琪
+- SVM模型、GDBT模型：李青琪
