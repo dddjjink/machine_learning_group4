@@ -5,7 +5,7 @@ class Evaluation:
 # 分类评价
 # 准确率
 class Accuracy(Evaluation):
-        def __init__(self, y_true, y_pred):
+    def __init__(self, y_true, y_pred):
         self.true_positives = 0
         self.true_negatives = 0
         self.false_positives = 0
@@ -34,7 +34,7 @@ class Accuracy(Evaluation):
 
 # F1度量
 class F1(Evaluation):
-        def __init__(self, y_true, y_pred):
+    def __init__(self, y_true, y_pred):
         self.true_positives = 0
         self.false_positives = 0
         self.false_negatives = 0
@@ -60,7 +60,7 @@ class F1(Evaluation):
 
 # P-R曲线，可视化
 class PR(Evaluation):
-        def __init__(self, y_true, y_pred):
+    def __init__(self, y_true, y_pred):
         self.precision = []
         self.recall = []
         self.y_true = y_true
@@ -95,7 +95,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 # ROC曲线，可视化
 class ROC(Evaluation):
-        def __init__(self, y_true, y_pred):
+    def __init__(self, y_true, y_pred):
         self.tpr = []
         self.fpr = []
         self.y_true = y_true
@@ -129,7 +129,7 @@ class ROC(Evaluation):
 
 # AUC
 class AUC(Evaluation):
-        def __init__(self, y_true, y_pred):
+    def __init__(self, y_true, y_pred):
         self.tpr = []
         self.fpr = []
         self.y_true = y_true
