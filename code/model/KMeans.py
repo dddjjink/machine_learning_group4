@@ -1,3 +1,7 @@
+import Model
+import math
+from numpy import power, shape, mat, zeros, nonzero, mean
+
 class KMeans(Model):
     def __init__(self):
         self.data=Dataset.Dataset
