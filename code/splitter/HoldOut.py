@@ -1,5 +1,5 @@
 import random as r
-import splitter
+import Splitter
 
 
 # 留出法
