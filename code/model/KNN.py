@@ -1,5 +1,6 @@
 import Model
 import numpy as np
+import operator
 
 # KNN模型，K最近邻算法->回归、分类
 class KNN(Model):
