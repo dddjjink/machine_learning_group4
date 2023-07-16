@@ -1,4 +1,4 @@
-import splitter
+import Splitter
 import pandas as pd
 
 
