@@ -21,7 +21,7 @@
         - 朴素贝叶斯模型、线性回归模型、逻辑回归模型、降维模型：柴菲儿
         - KNN模型、K均值聚类算法：张晨宇
     4. 模型评估部分
-        - MSE、RMSE、Distance：李青琪
+        - MSE、RMSE、Distance、代码整改：李青琪
         - Accuracy、F1、PR、AUC、ROC：柴菲儿
 3. 前端
 4. 前后端通信
