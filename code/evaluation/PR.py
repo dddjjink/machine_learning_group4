@@ -5,42 +5,34 @@ from Evaluation import Evaluation
 
 # P-R曲线，可视化
 class PR(Evaluation):
-    def __init__(self, y_test, y_pred):
-        super().__init__(y_test, y_pred)
-        self.precision = []
-        self.recall = []
+        def __init__(self, y_true, y_score):
+         self.y_true = y_true
+         self.y_score = y_score
 
-    def __call__(self, *args, **kwargs):
-        self.plot()
+        def precision_recall_curve(self):
+        # 计算不同阈值下的精确率和召回率
+        thresholds = np.unique(self.y_score)
+        precisions = []
+        recalls = []
+        for threshold in thresholds:
+            y_pred = np.where(self.y_score >= threshold, 1, 0)
+            tp = np.sum(np.logical_and(self.y_true == 1, y_pred == 1))
+            fp = np.sum(np.logical_and(self.y_true == 0, y_pred == 1))
+            fn = np.sum(np.logical_and(self.y_true == 1, y_pred == 0))
+            precision = tp / (tp + fp)
+            recall = tp / (tp + fn)
+            precisions.append(precision)
+            recalls.append(recall)
 
-    def pr_curve(self):
-        true_positives = 0
-        false_positives = 0
-        total_positives = np.sum(self.y_true)
+        return precisions, recalls
 
-        for true, pred in zip(self.y_true, self.y_pred):
-            if true == pred and true == 1:
-                true_positives += 1
-            elif true != pred and true == 1:
-                false_positives += 1
-
-            '''
-            !!!!!!!!!!此处有误!!!!!!!!!!
-            错误原因：ZeroDivisionError: division by zero
-            '''
-            precision = true_positives / (true_positives + false_positives)
-            recall = true_positives / total_positives
-
-            self.precision.append(precision)
-            self.recall.append(recall)
-            return self.precision, self.recall
-
-    def plot(self):
-        precision, recall = self.pr_curve()
-        plt.plot(recall, precision, marker='.')
+       def plot(self):
+        # 绘制PR曲线
+        precisions, recalls = self.precision_recall_curve()
+        plt.plot(recalls, precisions)
         plt.xlabel('Recall')
         plt.ylabel('Precision')
-        plt.title('P-R Curve')
+        plt.title('Precision-Recall Curve')
         plt.show()
 
 
