@@ -31,8 +31,15 @@ class HoldOut(Splitter):
 # # 留出法示例用法
 # if __name__ == '__main__':
 #     import pandas as pd
-#     data = pd.read_csv('../data/Iris.csv')
-#     print(data.head(10))
-#     data_split = HoldOut(data)
+#     # 鸢尾花数据集
+#     iris = pd.read_csv('../data/Iris.csv')
+#     print(iris.head(10))
+#     data_split = HoldOut(iris)
+#     train_data, test_data = data_split.split()
+#     print(train_data, test_data)
+#     # 红酒数据集
+#     wine = pd.read_csv('../data/WineQT.csv')
+#     print(wine.head(10))
+#     data_split = HoldOut(wine)
 #     train_data, test_data = data_split.split()
 #     print(train_data, test_data)
