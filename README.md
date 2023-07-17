@@ -22,6 +22,7 @@
         - KNN模型、K均值聚类算法：张晨宇
     4. 模型评估部分
         - MSE、RMSE、Distance：李青琪
+        - Accuracy、F1、PR、AUC、ROC：柴菲儿
 3. 前端
 4. 前后端通信
 ## 二、机器学习总体流程介绍
