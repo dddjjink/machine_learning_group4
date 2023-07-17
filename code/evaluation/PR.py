@@ -13,7 +13,7 @@ class PR(Evaluation):
     def __call__(self, *args, **kwargs):
         self.plot()
 
-    def PRCurve(self):
+    def pr_curve(self):
         true_positives = 0
         false_positives = 0
         total_positives = np.sum(self.y_true)
@@ -36,7 +36,7 @@ class PR(Evaluation):
             return self.precision, self.recall
 
     def plot(self):
-        precision, recall = self.PRCurve()
+        precision, recall = self.pr_curve()
         plt.plot(recall, precision, marker='.')
         plt.xlabel('Recall')
         plt.ylabel('Precision')
