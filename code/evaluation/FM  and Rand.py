@@ -1,5 +1,5 @@
 import numpy as np
-
+import Evaluation
 def compute_confusion_matrix(labels_true, labels_pred):
     n_samples = len(labels_true)
     confusion_matrix = np.zeros((2, 2))
@@ -50,9 +50,9 @@ labels_true = np.array([0, 0, 1, 1, 1])
 labels_pred = np.array([0, 0, 1, 1, 0])
 
 fm_index = compute_fm_index(labels_true, labels_pred)
-rand_index = compute_rand_index(labels_true, labels_pred)
+#rand_index = compute_rand_index(labels_true, labels_pred)
 
 print("FM指数:", fm_index)
-print("Rand指数:", rand_index)
+#print("Rand指数:", rand_index)
 #请注意，在使用这些指标时，需要提供真实的类别标签（labels_true）和聚类算法预测的类别标签（labels_pred）。
 #这里只提供了一个简单的示例，你可以根据实际需求对代码进行修改和扩展。
