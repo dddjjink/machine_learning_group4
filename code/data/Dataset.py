@@ -24,9 +24,10 @@ class WineQualityDataset(Dataset):
 
 
 # # 设定数据集对象
-# iris = IrisDataset()
-# iris.load()
-# print(iris.data.iloc[149])
-# wine = WineQualityDataset()
-# wine.load()
-# print(wine.data)
+# if __name__ == '__main__':   
+#     iris = IrisDataset()
+#     iris.load()
+#     print(iris.data.iloc[149])
+#     wine = WineQualityDataset()
+#     wine.load()
+#     print(wine.data)
