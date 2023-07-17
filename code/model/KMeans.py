@@ -4,8 +4,8 @@ import random
 from numpy import power, shape, mat, zeros, nonzero, mean
 
 class KMeans(Model):
-    def __init__(self):
-        self.data=Dataset.Dataset
+    def __init__(self,data):
+        self.data=data
     #计算距离
     def dist(instance1,instance2):
         return math.sqrt(sum(power(instance1-instance2, 2)))
