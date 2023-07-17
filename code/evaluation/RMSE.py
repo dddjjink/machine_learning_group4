@@ -4,7 +4,7 @@ import Evaluation
 # 均方根误差
 class RMSE(Evaluation):
     def __str__(self):
-        return 'MSE'
+        return 'RMSE'
 
     def __call__(self, y, y_pred):
         return self.loss(y, y_pred)
