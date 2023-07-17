@@ -49,34 +49,54 @@ class PR(Evaluation):
 #     import pandas as pd
 #     from sklearn.model_selection import train_test_split
 #     from sklearn.linear_model import LogisticRegression
-#
-#     # 鸢尾花数据集
+# 
+#     # # 鸢尾花数据集
+#     # # 数据载入
+#     # iris = pd.read_csv('../data/Iris.csv')
+#     # # print(iris.head(10))
+#     # # 数据分割
+#     # x = iris[['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm']]
+#     # y = iris['Species'].values
+#     # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # # print(x_train, x_test, y_train, y_test)
+#     # # 模型训练、预测
+#     # clf = LogisticRegression(random_state=0, solver='lbfgs')
+#     # clf.fit(x_train, y_train)
+#     # train_predict = clf.predict(x_train)
+#     # test_predict = clf.predict(x_test)
+#     # # 模型评估
+#     # PR_train = PR(y_train, train_predict)
+#     # PR_test = PR(y_test, test_predict)
+#     # PR_train()
+#     # PR_test()
+# 
+#     # # 红酒数据集
+#     # # 数据载入
+#     # wine = pd.read_csv('../data/WineQT.csv')
+#     # # print(wine.head(10))
+#     # # 数据分割
+#     # x = wine.drop(['quality', 'Id'], axis=1).values
+#     # y = wine['quality'].values
+#     # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # # print(x_train, x_test, y_train, y_test)
+#     # # 模型训练、预测
+#     # clf = LogisticRegression(random_state=0, solver='lbfgs')
+#     # clf.fit(x_train, y_train)
+#     # train_predict = clf.predict(x_train)
+#     # test_predict = clf.predict(x_test)
+#     # # 模型评估
+#     # PR_train = PR(y_train, train_predict)
+#     # PR_test = PR(y_test, test_predict)
+#     # PR_train()
+#     # PR_test()
+# 
+#     # 心脏病数据集
 #     # 数据载入
-#     iris = pd.read_csv('../data/Iris.csv')
-#     # print(iris.head(10))
+#     heart = pd.read_csv('../data/heart.csv')
+#     # print(heart.head(10))
 #     # 数据分割
-#     x = iris[['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm']]
-#     y = iris['Species'].values
-#     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
-#     # print(x_train, x_test, y_train, y_test)
-#     # 模型训练、预测
-#     clf = LogisticRegression(random_state=0, solver='lbfgs')
-#     clf.fit(x_train, y_train)
-#     train_predict = clf.predict(x_train)
-#     test_predict = clf.predict(x_test)
-#     # 模型评估
-#     PR_train = PR(y_train, train_predict)
-#     PR_test = PR(y_test, test_predict)
-#     PR_train()
-#     PR_test()
-#
-#     # 红酒数据集
-#     # 数据载入
-#     wine = pd.read_csv('../data/WineQT.csv')
-#     # print(wine.head(10))
-#     # 数据分割
-#     x = wine.drop(['quality', 'Id'], axis=1).values
-#     y = wine['quality'].values
+#     x = heart.drop(['target'], axis=1).values
+#     y = heart['target'].values
 #     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
 #     # print(x_train, x_test, y_train, y_test)
 #     # 模型训练、预测
