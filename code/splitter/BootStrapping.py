@@ -1,12 +1,14 @@
-import Splitter
+from Splitter import Splitter
 import random as r
-import pandas as pd
 
-        
+
 # 自助法
 class BootStrapping(Splitter):
     def __init__(self, dataset):
-        self.data: pd.DataFrame = dataset
+        super().__init__(dataset)
+
+    def __call__(self, *args, **kwargs):
+        self.split()
 
     def split(self):
         data_len = len(self.data)
@@ -14,7 +16,7 @@ class BootStrapping(Splitter):
         train_index = []
         # 进行m次放回抽样，得到D'
         for i in range(data_len):
-            train_index.append(r.randint(0, data_len-1))
+            train_index.append(r.randint(0, data_len - 1))
         # 得到D\D'
         test_index = list(set(index).difference(set(train_index)))
         # 产生训练/测试集
@@ -28,5 +30,10 @@ class BootStrapping(Splitter):
 
 
 # # 自助法示例用法
-# data = pd.read_csv('Iris.csv')
-# BootStrapping(data).split()
+# if __name__ == '__main__':
+#     import pandas as pd
+#     data = pd.read_csv('../data/Iris.csv')
+#     print(data.head(10))
+#     data_split = BootStrapping(data)
+#     train_data, test_data = data_split.split()
+#     print(train_data, test_data)
