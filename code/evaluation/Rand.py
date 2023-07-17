@@ -1,44 +1,101 @@
 import numpy as np
-import Evaluation
-def compute_confusion_matrix(labels_true, labels_pred):
-    n_samples = len(labels_true)
-    confusion_matrix = np.zeros((2, 2))
-    
-    for i in range(n_samples):
-        for j in range(i+1, n_samples):
-            if labels_true[i] == labels_true[j] and labels_pred[i] == labels_pred[j]:
-                confusion_matrix[0, 0] += 1  # true positive
-            elif labels_true[i] != labels_true[j] and labels_pred[i] != labels_pred[j]:
-                confusion_matrix[1, 1] += 1  # true negative
-            elif labels_true[i] == labels_true[j] and labels_pred[i] != labels_pred[j]:
-                confusion_matrix[0, 1] += 1  # false negative
-            else:
-                confusion_matrix[1, 0] += 1  # false positive
-    
-    return confusion_matrix
-
-def compute_rand_index(labels_true, labels_pred):
-    cm = compute_confusion_matrix(labels_true, labels_pred)
-    tp = cm[0, 0]
-    fp = cm[1, 0]
-    fn = cm[0, 1]
-    tn = cm[1, 1]
-    
-    rand_index = (tp + tn) / (tp + fp + fn + tn)
-    
-    return rand_index
-#上述代码中，compute_confusion_matrix函数用于计算混淆矩阵，该矩阵用于计算FM指数和Rand指数。
-#compute_fm_index函数通过混淆矩阵计算FM指数，公式为：FM = sqrt(precision * recall)，
-#其中precision为精确率，recall为召回率。compute_rand_index函数通过混淆矩阵计算Rand指数，
-#公式为：Rand = (TP + TN) / (TP + FP + FN + TN)，其中TP表示真正例数量，TN表示真反例数量，FP表示假正例数量，FN表示假反例数量。
-
-# 生成随机的标签数据
-labels_true = np.array([0, 0, 1, 1, 1])
-labels_pred = np.array([0, 0, 1, 1, 0])
+from Evaluation import Evaluation
 
 
-rand_index = compute_rand_index(labels_true, labels_pred)
+class Rand(Evaluation):
+    def __init__(self, labels_true, labels_pred):
+        super().__init__(labels_true, labels_pred)
 
-print("Rand指数:", rand_index)
-#请注意，在使用这些指标时，需要提供真实的类别标签（labels_true）和聚类算法预测的类别标签（labels_pred）。
-#这里只提供了一个简单的示例，你可以根据实际需求对代码进行修改和扩展。
+    def __call__(self, *args, **kwargs):
+        self.compute_rand_index()
+
+    def compute_confusion_matrix(self):
+        n_samples = len(self.y_true)
+        confusion_matrix = np.zeros((2, 2))
+        for i in range(n_samples):
+            for j in range(i + 1, n_samples):
+                if self.y_true[i] == self.y_true[j] and self.y_pred[i] == self.y_pred[j]:
+                    confusion_matrix[0, 0] += 1  # true positive
+                elif self.y_true[i] != self.y_true[j] and self.y_pred[i] != self.y_pred[j]:
+                    confusion_matrix[1, 1] += 1  # true negative
+                elif self.y_true[i] == self.y_true[j] and self.y_pred[i] != self.y_pred[j]:
+                    confusion_matrix[0, 1] += 1  # false negative
+                else:
+                    confusion_matrix[1, 0] += 1  # false positive
+        return confusion_matrix
+
+    def compute_rand_index(self):
+        cm = self.compute_confusion_matrix()
+        tp = cm[0, 0]
+        fp = cm[1, 0]
+        fn = cm[0, 1]
+        tn = cm[1, 1]
+        rand_index = (tp + tn) / (tp + fp + fn + tn)
+        print(rand_index)
+
+
+# # 闵可夫斯基距离示例用法
+# if __name__ == '__main__':
+#     import pandas as pd
+#     from sklearn.model_selection import train_test_split
+#     from sklearn.cluster import KMeans
+# 
+#     # 鸢尾花数据集
+#     # 数据载入
+#     iris = pd.read_csv('../data/Iris.csv')
+#     # print(iris.head(10))
+#     # 数据分割
+#     x = iris[['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm']]
+#     y = iris['Species'].values
+#     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # print(x_train, x_test, y_train, y_test)
+#     # 模型训练、预测
+#     model = KMeans(n_clusters=3)
+#     model.fit(x_train, y_train)
+#     train_predict = model.predict(x_train)
+#     test_predict = model.predict(x_test)
+#     # # 模型评估
+#     rand_train = Rand(y_train, train_predict)
+#     rand_test = Rand(y_test, test_predict)
+#     rand_train()
+#     rand_test()
+# 
+#     # 红酒数据集
+#     # 数据载入
+#     wine = pd.read_csv('../data/WineQT.csv')
+#     # print(wine.head(10))
+#     # 数据分割
+#     x = wine.drop(['quality', 'Id'], axis=1).values
+#     y = wine['quality'].values
+#     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # print(x_train, x_test, y_train, y_test)
+#     # 模型训练、预测
+#     model = KMeans(n_clusters=3)
+#     model.fit(x_train, y_train)
+#     train_predict = model.predict(x_train)
+#     test_predict = model.predict(x_test)
+#     # # 模型评估
+#     rand_train = Rand(y_train, train_predict)
+#     rand_test = Rand(y_test, test_predict)
+#     rand_train()
+#     rand_test()
+# 
+#     # 心脏病数据集
+#     # 数据载入
+#     heart = pd.read_csv('../data/heart.csv')
+#     # print(heart.head(10))
+#     # 数据分割
+#     x = heart.drop(['target'], axis=1).values
+#     y = heart['target'].values
+#     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # print(x_train, x_test, y_train, y_test)
+#     # 模型训练、预测
+#     model = KMeans(n_clusters=3)
+#     model.fit(x_train, y_train)
+#     train_predict = model.predict(x_train)
+#     test_predict = model.predict(x_test)
+#     # # 模型评估
+#     rand_train = Rand(y_train, train_predict)
+#     rand_test = Rand(y_test, test_predict)
+#     rand_train()
+#     rand_test()
