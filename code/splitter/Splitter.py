@@ -1,6 +1,4 @@
-import pandas as pd
-
-
 class Splitter:
-    def __init__(self, dataset):
-        self.data: pd.DataFrame = dataset
+    def __init__(self, x, y):
+        self.data = x
+        self.target = y
