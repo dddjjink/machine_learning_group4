@@ -1,8 +1,8 @@
-import Model
+from Model import Model
 import numpy as np
 
 
-# 支持向量机模型，分类
+# 支持向量机模型，二分类
 class SVM(Model):
     def __init__(self, max_iter=100, kernel='linear'):
         self.max_iter = max_iter
@@ -19,10 +19,10 @@ class SVM(Model):
         # 松弛变量
         self.C = 1.0
         # 将Ei保存在一个列表里
-        self.create_E()
+        self.create_e()
 
     # KKT条件判断
-    def judge_KKT(self, i):
+    def judge_kkt(self, i):
         y_g = self.function_g(i) * self.Y[i]
         if self.alpha[i] == 0:
             return y_g >= 1
@@ -48,7 +48,7 @@ class SVM(Model):
         return 0
 
     # 将Ei保存在一个列表里
-    def create_E(self):
+    def create_e(self):
         self.E = (np.dot((self.alpha * self.Y), self.product_matrix) + self.b) - self.Y
 
     # 预测函数g(x)
@@ -63,7 +63,7 @@ class SVM(Model):
         non_satisfy_list = [i for i in range(self.m) if i not in index_list]
         index_list.extend(non_satisfy_list)
         for i in index_list:
-            if self.judge_KKT(i):
+            if self.judge_kkt(i):
                 continue
             E1 = self.E[i]
             # 如果E2是+，选择最小的；如果E2是负的，选择最大的
@@ -82,8 +82,8 @@ class SVM(Model):
         else:
             return _alpha
 
-    # 训练函数，使用SMO算法
-    def Train(self, features, labels):
+    # 训练函数，使用SMO算法，features, labels -> x_train, y_train
+    def fit(self, features, labels):
         self.init_args(features, labels)
         # SMO算法训练
         for t in range(self.max_iter):
@@ -129,20 +129,77 @@ class SVM(Model):
             self.alpha[i2] = alpha2_new
             self.b = b_new
 
-            self.create_E()
+            self.create_e()
 
     # 预测
     def predict(self, data):
-        r = self.b
-        for i in range(self.m):
-            r += self.alpha[i] * self.Y[i] * self.kernel(data, self.X[i])
-        return 1 if r > 0 else -1
+        results = []
+        for i in range(len(data)):
+            r = self.b
+            for j in range(self.m):
+                r += self.alpha[j] * self.Y[j] * self.kernel(data[i], self.X[j])
+            if r > 0:
+                result = 1
+            else:
+                result = 0
+            results.append(result)
+        return results
 
-    # 简单评估
-    def score(self, X_test, y_test):
-        right_count = 0
-        for i in range(len(X_test)):
-            result = self.predict(X_test[i])
-            if result == y_test[i]:
-                right_count += 1
-        return right_count / len(X_test)
+# # SVM示例用法
+# if __name__ == '__main__':
+#     import pandas as pd
+#     from sklearn.model_selection import train_test_split
+#
+#     # '''
+#     # 对本例的鸢尾花数据集不适用，SVM适用二分类问题
+#     # '''
+#     # # 鸢尾花数据集
+#     # # 数据载入
+#     # iris = pd.read_csv('../data/Iris.csv')
+#     # # print(iris.head(10))
+#     # # 数据分割
+#     # x = iris.drop(['Species', 'Id'], axis=1).values
+#     # y = iris['Species'].values
+#     # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # # print(x_train, x_test, y_train, y_test)
+#     # # 模型训练、预测
+#     # clf = SVM()
+#     # clf.fit(x_train, y_train)
+#     # train_predict = clf.predict(x_train)
+#     # test_predict = clf.predict(x_test)
+#
+#     # '''
+#     # 对本例的红酒数据集不适用，SVM适用二分类问题
+#     # '''
+#     # # 红酒数据集
+#     # # 数据载入
+#     # wine = pd.read_csv('../data/WineQT.csv')
+#     # # print(wine.head(10))
+#     # # 数据分割
+#     # x = wine.drop(['quality', 'Id'], axis=1).values
+#     # y = wine['quality'].values
+#     # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # # print(x_train, x_test, y_train, y_test)
+#     # # 模型训练、预测
+#     # clf = SVM()
+#     # clf.fit(x_train, y_train)
+#     # train_predict = clf.predict(x_train)
+#     # test_predict = clf.predict(x_test)
+#
+#     # 心脏病数据集
+#     # 数据载入
+#     heart = pd.read_csv('../data/heart.csv')
+#     # print(heart.head(10))
+#     # 数据分割
+#     x = heart.drop(['target'], axis=1).values
+#     y = heart['target'].values
+#     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # print(x_train, x_test, y_train, y_test)
+#     # 模型训练、预测
+#     clf = SVM()
+#     clf.fit(x_train, y_train)
+#     train_predict = clf.predict(x_train)
+#     test_predict = clf.predict(x_test)
+#     print(y_test)
+#     print(test_predict)
+
