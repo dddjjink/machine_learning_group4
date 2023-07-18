@@ -10,6 +10,8 @@
 - KMeans
 #### 红酒数据集
 - KMeans
+- GBDT
 #### 心脏病数据集（二分类）
 - SVM
 - KMeans
+- GBDT
