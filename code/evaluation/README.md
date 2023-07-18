@@ -5,3 +5,26 @@
 - Accuracy、F1、PR、AUC、ROC：柴菲儿
 ### 代码整改负责成员
 李青琪
+### 各数据集可用的评估方法
+#### 鸢尾花数据集
+- Accuracy
+- FM
+- Rand
+#### 红酒数据集
+- Accuracy
+- Distance
+- FM
+- MSE
+- Rand
+- RMSE
+#### 心脏病数据集（二分类）
+- Accuracy
+- AUC
+- Distance
+- F1
+- FM
+- MSE
+- PR
+- Rand
+- RMSE
+- ROC
