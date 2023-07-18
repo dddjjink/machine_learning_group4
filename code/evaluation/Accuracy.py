@@ -78,5 +78,24 @@ class Accuracy(Evaluation):
 #     acc_test = Accuracy(y_test, test_predict)
 #     acc_train()
 #     acc_test()
-
+#
+#     # 心脏病数据集
+#     # 数据载入
+#     heart = pd.read_csv('../data/heart.csv')
+#     # print(heart.head(10))
+#     # 数据分割
+#     x = heart.drop(['target'], axis=1).values
+#     y = heart['target'].values
+#     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # print(x_train, x_test, y_train, y_test)
+#     # 模型训练、预测
+#     clf = LogisticRegression(random_state=0, solver='lbfgs')
+#     clf.fit(x_train, y_train)
+#     train_predict = clf.predict(x_train)
+#     test_predict = clf.predict(x_test)
+#     # 模型评估
+#     acc_train = Accuracy(y_train, train_predict)
+#     acc_test = Accuracy(y_test, test_predict)
+#     acc_train()
+#     acc_test()
 
