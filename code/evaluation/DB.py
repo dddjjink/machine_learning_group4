@@ -2,69 +2,58 @@ import numpy as np
 
 
 class DB:
-    def __init__(self, data, labels):
-        self.data = data
+
+    def __init__(self, X, labels, metric='euclidean'):
+        self.X = X
         self.labels = labels
+        self.metric = metric
 
-    def __call__(self, *args, **kwargs):
-        self.db_index()
+    def __call__(self):
+        return self.calculate()
 
-    def cal_distance(self, v1, v2):  # 计算欧氏距离
-        sum = 0
-        for i in range(len(v1)):
-            sum += (v1[i] - v2[i]) ** 2
-        return sum ** 0.5
+    def calculate(self):
+        num_clusters = len(set(self.labels))
+        cluster_centers = self._calculate_cluster_centers(self.X, self.labels)
+        cluster_distances = self._calculate_cluster_distances(cluster_centers)
+        cluster_similarities = self._calculate_cluster_similarities(cluster_distances)
 
-    def cal_center(self, cluster):
-        # 计算聚类中心点
-        center = [sum(i) / len(i) for i in zip(*cluster)]
-        return center
+        db_index = np.mean(np.max(cluster_similarities, axis=1))
 
-    def calculate_similarity_matrix(self):  # 计算数据集中所有点之间的相似度矩阵
-        n = len(self.data)
-        similarity_matrix = np.zeros((n, n))
-        for i in range(n):
-            for j in range(n):
-                if i != j:
-                    '''
-                    !!!!!!!!!!此处有误!!!!!!!!!!
-                    '''                    
-                    similarity_matrix[i][j] = self.cal_distance(self.data[i], self.data[j])
-        return similarity_matrix
-
-    def cal_disimilarity(self, cluster):  # 计算簇内所有点之间的平均距离
-        distances = [self.cal_distance(cluster[i], cluster[j])
-                     for i in range(len(cluster)) for j in range(i + 1, len(cluster))]
-        if len(distances) > 0:
-            avg_distance = sum(distances) / len(distances)
-        else:
-            avg_distance = 0
-        return avg_distance
-
-    def cal_cluster_distance(self, cluster1, cluster2):  # 计算两个聚类之间的距离
-        distances = [self.cal_distance(point1, point2) for point1 in cluster1 for point2 in cluster2]
-        min_distance = min(distances)
-        return min_distance
-
-    def db_index(self):
-        similarity_matrix = self.calculate_similarity_matrix()
-        n = len(similarity_matrix)
-        db_index = 0
-        for i in range(n):
-            in_distances = []  # 簇内距
-            for j in range(n):
-                if i != j:
-                    in_distances.append(self.cal_disimilarity([self.data[i], self.data[j]]))
-            avg_in_distance = sum(in_distances) / len(in_distances)
-            inter_cluster_distances = []  # 簇间距
-            for j in range(n):
-                if i != j:
-                    inter_cluster_distances.append(
-                        self.cal_cluster_distance([self.data[i]], [self.data[j]]))
-            max_inter_cluster_distance = max(inter_cluster_distances)
-            db_index += (avg_in_distance / max_inter_cluster_distance)
-        db_index /= n
         print(db_index)
+
+    def _calculate_cluster_centers(self, X, labels):
+        cluster_centers = []
+        for i in range(len(set(labels))):
+            points = X[labels == i]
+            if len(points) == 0:
+                continue
+            cluster_center = np.mean(points, axis=0)
+            cluster_centers.append(cluster_center)
+        return np.array(cluster_centers)
+
+    def _calculate_cluster_distances(self,cluster_centers):
+        num_clusters = len(cluster_centers)
+        cluster_distances = np.zeros((num_clusters, num_clusters))
+        for i in range(num_clusters):
+            for j in range(i + 1, num_clusters):
+                distance = np.linalg.norm(cluster_centers[i] - cluster_centers[j])
+                cluster_distances[i, j] = distance
+                cluster_distances[j, i] = distance
+        return cluster_distances
+
+    def _calculate_cluster_similarities(self, cluster_distances):
+        num_clusters = cluster_distances.shape[0]
+        cluster_similarities = np.zeros((num_clusters, num_clusters))
+        for i in range(num_clusters):
+            for j in range(num_clusters):
+                if i != j:
+                    if cluster_distances[i, i] == 0 or cluster_distances[j, j] == 0:
+                        similarity = 0
+                    else:
+                        similarity = (cluster_distances[i, j] + cluster_distances[j, i]) / cluster_distances[i, i]
+                    cluster_similarities[i, j] = similarity
+        return cluster_similarities
+
 
 
 # # DB指数示例用法
