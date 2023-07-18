@@ -34,7 +34,7 @@ class Rand(Evaluation):
         print(rand_index)
 
 
-# # 闵可夫斯基距离示例用法
+# # Rand示例用法
 # if __name__ == '__main__':
 #     import pandas as pd
 #     from sklearn.model_selection import train_test_split
