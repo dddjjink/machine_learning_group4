@@ -65,14 +65,14 @@ class PR(Evaluation):
 #     # # 模型训练、预测
 #     # clf = LogisticRegression(random_state=0, solver='lbfgs')
 #     # clf.fit(x_train, y_train)
-#     # train_predict = clf.predict(x_train)
-#     # test_predict = clf.predict(x_test)
+#     # y_score_train = clf.decision_function(x_train)
+#     # y_score_test = clf.decision_function(x_test)
 #     # # 模型评估
-#     # PR_train = PR(y_train, train_predict)
-#     # PR_test = PR(y_test, test_predict)
+#     # PR_train = PR(y_train, y_score_train)
+#     # PR_test = PR(y_test, y_score_test)
 #     # PR_train()
 #     # PR_test()
-#     
+#
 #     # '''
 #     # 对本例的红酒数据集不适用，P-R曲线适用二分类问题
 #     # '''
@@ -88,14 +88,14 @@ class PR(Evaluation):
 #     # # 模型训练、预测
 #     # clf = LogisticRegression(random_state=0, solver='lbfgs')
 #     # clf.fit(x_train, y_train)
-#     # train_predict = clf.predict(x_train)
-#     # test_predict = clf.predict(x_test)
+#     # y_score_train = clf.decision_function(x_train)
+#     # y_score_test = clf.decision_function(x_test)
 #     # # 模型评估
-#     # PR_train = PR(y_train, train_predict)
-#     # PR_test = PR(y_test, test_predict)
+#     # PR_train = PR(y_train, y_score_train)
+#     # PR_test = PR(y_test, y_score_test)
 #     # PR_train()
 #     # PR_test()
-# 
+#
 #     # 心脏病数据集
 #     # 数据载入
 #     heart = pd.read_csv('../data/heart.csv')
@@ -108,10 +108,10 @@ class PR(Evaluation):
 #     # 模型训练、预测
 #     clf = LogisticRegression(random_state=0, solver='lbfgs')
 #     clf.fit(x_train, y_train)
-#     train_predict = clf.predict(x_train)
-#     test_predict = clf.predict(x_test)
+#     y_score_train = clf.decision_function(x_train)
+#     y_score_test = clf.decision_function(x_test)
 #     # 模型评估
-#     PR_train = PR(y_train, train_predict)
-#     PR_test = PR(y_test, test_predict)
+#     PR_train = PR(y_train, y_score_train)
+#     PR_test = PR(y_test, y_score_test)
 #     PR_train()
 #     PR_test()
