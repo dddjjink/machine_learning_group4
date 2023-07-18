@@ -5,42 +5,43 @@ from Evaluation import Evaluation
 
 # P-R曲线，可视化
 class PR(Evaluation):
-        def __init__(self, y_true, y_score):
-            self.y_true = y_true
-            self.y_score = y_score
+    def __init__(self, y_true, y_score):
+        self.y_true = y_true
+        self.y_score = y_score
 
-        def precision_recall_curve(self):
-            # 计算不同阈值下的精确率和召回率
-            thresholds = np.unique(self.y_score)
-            precisions = []
-            recalls = []
-            for threshold in thresholds:
-                y_pred = np.where(self.y_score >= threshold, 1, 0)
-                tp = np.sum(np.logical_and(self.y_true == 1, y_pred == 1))
-                fp = np.sum(np.logical_and(self.y_true == 0, y_pred == 1))
-                fn = np.sum(np.logical_and(self.y_true == 1, y_pred == 0))
-                if tp + fp == 0:
-                   precision = 0
-                else:
-                   precision = tp / (tp + fp)
-                if tp + fn==0:
-                   recall =0
-                else:
-                   recall = tp / (tp + fn)
-                precisions.append(precision)
-                recalls.append(recall)
+    def __call__(self, *args, **kwargs):
+        self.plot()
 
-            return precisions, recalls
+    def precision_recall_curve(self):
+        # 计算不同阈值下的精确率和召回率
+        thresholds = np.unique(self.y_score)
+        precisions = []
+        recalls = []
+        for threshold in thresholds:
+            y_pred = np.where(self.y_score >= threshold, 1, 0)
+            tp = np.sum(np.logical_and(self.y_true == 1, y_pred == 1))
+            fp = np.sum(np.logical_and(self.y_true == 0, y_pred == 1))
+            fn = np.sum(np.logical_and(self.y_true == 1, y_pred == 0))
+            if tp + fp == 0:
+                precision = 0
+            else:
+                precision = tp / (tp + fp)
+            if tp + fn == 0:
+                recall = 0
+            else:
+                recall = tp / (tp + fn)
+            precisions.append(precision)
+            recalls.append(recall)
+        return precisions, recalls
 
-
-       def plot(self):
-           # 绘制PR曲线
-           precisions, recalls = self.precision_recall_curve()
-           plt.plot(recalls, precisions)
-           plt.xlabel('Recall')
-           plt.ylabel('Precision')
-           plt.title('Precision-Recall Curve')
-           plt.show()
+    def plot(self):
+        # 绘制PR曲线
+        precisions, recalls = self.precision_recall_curve()
+        plt.plot(recalls, precisions)
+        plt.xlabel('Recall')
+        plt.ylabel('Precision')
+        plt.title('Precision-Recall Curve')
+        plt.show()
 
 
 # # P-R曲线示例用法
@@ -49,6 +50,9 @@ class PR(Evaluation):
 #     from sklearn.model_selection import train_test_split
 #     from sklearn.linear_model import LogisticRegression
 # 
+#     # '''
+#     # 对本例的鸢尾花数据集不适用，P-R曲线适用二分类问题
+#     # '''
 #     # # 鸢尾花数据集
 #     # # 数据载入
 #     # iris = pd.read_csv('../data/Iris.csv')
@@ -68,7 +72,10 @@ class PR(Evaluation):
 #     # PR_test = PR(y_test, test_predict)
 #     # PR_train()
 #     # PR_test()
-# 
+#     
+#     # '''
+#     # 对本例的红酒数据集不适用，P-R曲线适用二分类问题
+#     # '''
 #     # # 红酒数据集
 #     # # 数据载入
 #     # wine = pd.read_csv('../data/WineQT.csv')
