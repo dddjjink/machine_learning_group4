@@ -30,16 +30,6 @@ def compute_fm_index(labels_true, labels_pred):
     
     return fm_index
 
-def compute_rand_index(labels_true, labels_pred):
-    cm = compute_confusion_matrix(labels_true, labels_pred)
-    tp = cm[0, 0]
-    fp = cm[1, 0]
-    fn = cm[0, 1]
-    tn = cm[1, 1]
-    
-    rand_index = (tp + tn) / (tp + fp + fn + tn)
-    
-    return rand_index
 #上述代码中，compute_confusion_matrix函数用于计算混淆矩阵，该矩阵用于计算FM指数和Rand指数。
 #compute_fm_index函数通过混淆矩阵计算FM指数，公式为：FM = sqrt(precision * recall)，
 #其中precision为精确率，recall为召回率。compute_rand_index函数通过混淆矩阵计算Rand指数，
