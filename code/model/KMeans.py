@@ -2,6 +2,7 @@ import numpy as np
 from Model import Model
 
 
+# K均值聚类算法，聚类
 class KMeans(Model):
     def __init__(self, k=3, max_iterations=300):
         self.k = k
