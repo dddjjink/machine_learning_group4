@@ -38,7 +38,7 @@ class FM(Evaluation):
         print(fm_index)
 
 
-# # 闵可夫斯基距离示例用法
+# # FM示例用法
 # if __name__ == '__main__':
 #     import pandas as pd
 #     from sklearn.model_selection import train_test_split
