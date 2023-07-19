@@ -15,9 +15,11 @@
 - KMeans
 - GBDT
 - LinearRegression
+- DecisionTree
 #### 心脏病数据集（二分类）
 - SVM
 - KMeans
 - GBDT
 - LinearRegression
 - LogisticRegression
+- DecisionTree
