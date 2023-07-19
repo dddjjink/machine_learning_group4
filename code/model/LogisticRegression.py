@@ -1,5 +1,6 @@
 import numpy as np
 from Model import Model
+from PCA import PCA
 
 
 # 逻辑回归模型，二分类
@@ -11,6 +12,10 @@ class LogisticRegression(Model):
         self.bias = None
 
     def fit(self, X, y):
+        if X.ndim > 4:
+            pca = PCA(2)
+            X = pca.transform(X)
+            y = pca.transform(y)
         num_samples, num_features = X.shape
         self.weights = np.zeros(num_features)
         self.bias = 0
@@ -41,7 +46,7 @@ class LogisticRegression(Model):
 # if __name__ == '__main__':
 #     import pandas as pd
 #     from sklearn.model_selection import train_test_split
-# 
+#
 #     # '''
 #     # 对本例的鸢尾花数据集不适用，LogisticRegression适用二分类问题
 #     # '''
@@ -60,7 +65,7 @@ class LogisticRegression(Model):
 #     # train_predict = clf.predict(x_train)
 #     # test_predict = clf.predict(x_test)
 #     # print(test_predict)
-# 
+#
 #     # '''
 #     # 对本例的红酒数据集不适用，LogisticRegression适用二分类问题
 #     # '''
@@ -79,7 +84,7 @@ class LogisticRegression(Model):
 #     # train_predict = clf.predict(x_train)
 #     # test_predict = clf.predict(x_test)
 #     # print(train_predict)
-# 
+#
 #     # 心脏病数据集
 #     # 数据载入
 #     heart = pd.read_csv('../data/heart.csv')
