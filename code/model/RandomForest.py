@@ -40,7 +40,7 @@ class RandomForest(DecisionTree):
 #     # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
 #     # # print(x_train, x_test, y_train, y_test)
 #     # # 模型训练、预测
-#     # clf = DecisionTree()
+#     # clf = RandomForest()
 #     # clf.fit(x_train, y_train)
 #     # train_predict = clf.predict(x_train)
 #     # test_predict = clf.predict(x_test)
@@ -56,7 +56,7 @@ class RandomForest(DecisionTree):
 #     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
 #     # print(x_train, x_test, y_train, y_test)
 #     # 模型训练、预测
-#     clf = DecisionTree()
+#     clf = RandomForest()
 #     clf.fit(x_train, y_train)
 #     train_predict = clf.predict(x_train)
 #     test_predict = clf.predict(x_test)
@@ -72,9 +72,8 @@ class RandomForest(DecisionTree):
 #     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
 #     # print(x_train, x_test, y_train, y_test)
 #     # 模型训练、预测
-#     clf = DecisionTree()
+#     clf = RandomForest()
 #     clf.fit(x_train, y_train)
 #     train_predict = clf.predict(x_train)
 #     test_predict = clf.predict(x_test)
-#     print(y_test)
 #     print(test_predict)
