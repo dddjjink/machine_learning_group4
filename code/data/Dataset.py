@@ -58,7 +58,7 @@ class HeartDiseaseDataSet(Dataset):
 # if __name__ == '__main__':
 #     iris = IrisDataset()
 #     iris.data_target()
-#     print(iris.data, )
+#     print(iris.data)
 #     wine = WineQualityDataset()
 #     wine.data_target()
 #     print(wine.target)
