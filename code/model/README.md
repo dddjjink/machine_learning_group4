@@ -12,6 +12,7 @@
 #### 鸢尾花数据集
 - KMeans
 - KNN
+- NaiveBayes
 #### 红酒数据集
 - KMeans
 - KNN
@@ -19,6 +20,7 @@
 - LinearRegression
 - DecisionTree
 - RandomForest
+- NaiveBayes
 #### 心脏病数据集（二分类）
 - SVM
 - KMeans
@@ -28,3 +30,4 @@
 - LogisticRegression
 - DecisionTree
 - RandomForest
+- NaiveBayes
