@@ -1,4 +1,5 @@
 from Model import Model
+from PCA import PCA
 import operator
 import math
 
@@ -42,8 +43,11 @@ class KNN(Model):
         return sortclass[0][0]
 
     # 拟合训练数据
-    def fit(self, train_data):
-        self.train_data = train_data
+    def fit(self, data):
+        if data.ndim > 4:
+            pca = PCA(2)
+            data = pca.transform(data)
+        self.train_data = data
 
     # 预测测试数据的类别
     def predict(self, test_data):
@@ -59,7 +63,7 @@ class KNN(Model):
 # if __name__ == '__main__':
 #     import pandas as pd
 #     from sklearn.model_selection import train_test_split
-# 
+#
 #     # 鸢尾花数据集
 #     # 数据载入
 #     iris = pd.read_csv('../data/Iris.csv')
@@ -75,7 +79,7 @@ class KNN(Model):
 #     train_predict = clf.predict(x_train)
 #     test_predict = clf.predict(x_test)
 #     print(test_predict)
-# 
+#
 #     # 红酒数据集
 #     # 数据载入
 #     wine = pd.read_csv('../data/WineQT.csv')
@@ -91,7 +95,7 @@ class KNN(Model):
 #     train_predict = clf.predict(x_train)
 #     test_predict = clf.predict(x_test)
 #     print(train_predict)
-# 
+#
 #     # 心脏病数据集
 #     # 数据载入
 #     heart = pd.read_csv('../data/heart.csv')
