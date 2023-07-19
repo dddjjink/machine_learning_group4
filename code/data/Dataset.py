@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 
 
@@ -21,7 +22,8 @@ class Dataset:
 # 鸢尾花数据集
 class IrisDataset(Dataset):
     def __init__(self):
-        super().__init__('Iris.csv')
+        path = os.path.join(os.path.dirname(__file__), 'Iris.csv')
+        super().__init__(path)
 
     def data_target(self):
         super().load()
@@ -33,7 +35,8 @@ class IrisDataset(Dataset):
 # 红酒数据集
 class WineQualityDataset(Dataset):
     def __init__(self):
-        super().__init__('WineQT.csv')
+        path = os.path.join(os.path.dirname(__file__), 'WineQT.csv')
+        super().__init__(path)
 
     def data_target(self):
         super().load()
@@ -45,7 +48,8 @@ class WineQualityDataset(Dataset):
 # 心脏病数据集，二分类数据集，适用逻辑回归、SVM、决策树
 class HeartDiseaseDataSet(Dataset):
     def __init__(self):
-        super().__init__('heart.csv')
+        path = os.path.join(os.path.dirname(__file__), 'heart.csv')
+        super().__init__(path)
 
     def data_target(self):
         super().load()
@@ -58,7 +62,7 @@ class HeartDiseaseDataSet(Dataset):
 # if __name__ == '__main__':
 #     iris = IrisDataset()
 #     iris.data_target()
-#     print(iris.data)
+#     print(iris.data, )
 #     wine = WineQualityDataset()
 #     wine.data_target()
 #     print(wine.target)
