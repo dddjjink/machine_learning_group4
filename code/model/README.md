@@ -11,8 +11,10 @@
 ### 各数据集可用的模型
 #### 鸢尾花数据集
 - KMeans
+- KNN
 #### 红酒数据集
 - KMeans
+- KNN
 - GBDT
 - LinearRegression
 - DecisionTree
@@ -20,6 +22,7 @@
 #### 心脏病数据集（二分类）
 - SVM
 - KMeans
+- KNN
 - GBDT
 - LinearRegression
 - LogisticRegression
