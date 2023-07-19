@@ -168,29 +168,29 @@ function resetForm() {
         <h2><p align="center"> 选择数据集：</p></h2>
         <div class="radio-container">
             <div id="irisOption" class="datasetOption">
-            <input type="radio" name="Dataset" value="iris" onchange="updateOptions()"> 鸢尾花数据集
+            <input type="radio" name="Dataset" value="iris" onchange="updateOptions()"> iris dataset
             </div>
             <div id="wineOption" class="datasetOption">
-            <input type="radio" name="Dataset" value="wine" onchange="updateOptions()"> 红酒数据集
+            <input type="radio" name="Dataset" value="wine" onchange="updateOptions()"> wine dataset
             </div>
             <div id="heartOption" class="datasetOption">
-            <input type="radio" name="Dataset" value="heart" onchange="updateOptions()"> 心脏病数据集
+            <input type="radio" name="Dataset" value="heart" onchange="updateOptions()"> heart disease dataset
             </div>
         </div>
 
         <br>
 
 
-        <h2><p align="center">选择分割器：</p></h2>
+        <h2><p aligcenter">选择分割器：</p></h2>
         <div class="radio-container">
             <div id="holdoutOption" class="splitterOption">
-            <input type="radio" name="splitter" value="houldout" onchange="updatepercent()"> 留出法
+            <input type="radio" name="splitter" value="houldout" onchange="updatepercent()"> set-aside method
             </div>
             <div id="cvOption" class="splitterOption">
-            <input type="radio" name="splitter" value="cv" onchange="updatepercent()"> 交叉验证法
+            <input type="radio" name="splitter" value="cv" onchange="updatepercent()"> cross-validation method
             </div>
             <div id="boostrapingOption" class="splitterOption">
-            <input type="radio" name="splitter" value="bootstraping" onchange="updatepercent()"> 自助法
+            <input type="radio" name="splitter" value="bootstraping" onchange="updatepercent()"> bootstraping method
             </div>
             </div>
 
@@ -222,19 +222,19 @@ function resetForm() {
                     <input type="radio" name="model" value="GradientBoosting" onchange="updatedata()"> GradientBoosting
                 </div>
                 <div id="LROption" class="modelOption">
-            <input type="radio" name="model" value="LR" onchange="updatedata()"> 线性回归
+            <input type="radio" name="model" value="LR" onchange="updatedata()"> linear regression
                 </div>
                 <div id="LogisticRegressionOption" class="modelOption">
-            <input type="radio" name="model" value="LogisticRegression" onchange="updatedata()"> 逻辑回归
+            <input type="radio" name="model" value="LogisticRegression" onchange="updatedata()"> logistic regression
                 </div>
                 <div id="NBOption" class="modelOption">
-            <input type="radio" name="model" value="NB" onchange="updatedata()"> 朴素贝叶斯
+            <input type="radio" name="model" value="NB" onchange="updatedata()"> navie bayes
                 </div>
                 <div id="DecisionTreeOption" class="modelOption">
-            <input type="radio" name="model" value="Decision Tree" onchange="updatedata()"> 决策树
+            <input type="radio" name="model" value="Decision Tree" onchange="updatedata()"> decision tree
                 </div>
                 <div id="RandomForestOption" class="modelOption">
-            <input type="radio" name="model" value="Random Forest" onchange="updatedata()"> 随机森林
+            <input type="radio" name="model" value="Random Forest" onchange="updatedata()"> random forest
                 </div>
                 </div>
 
