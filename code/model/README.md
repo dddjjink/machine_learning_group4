@@ -11,7 +11,9 @@
 #### 红酒数据集
 - KMeans
 - GBDT
+- LinearRegression
 #### 心脏病数据集（二分类）
 - SVM
 - KMeans
 - GBDT
+- LinearRegression
