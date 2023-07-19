@@ -20,3 +20,4 @@
 - KMeans
 - GBDT
 - LinearRegression
+- LogisticRegression
