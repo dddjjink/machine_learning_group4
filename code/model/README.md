@@ -5,6 +5,9 @@
 - LR模型、LogisticRegression模型、NB模型、PCA模型：柴菲儿
 ### 代码整改负责成员
 李青琪
+### 含学习率的模型
+- GBDT
+- LogisticRegression
 ### 各数据集可用的模型
 #### 鸢尾花数据集
 - KMeans
