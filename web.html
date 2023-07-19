@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>机器学习</title>
+    <script src="s.js"></script>
+    <style>
+    /* 设置选择区域的样式 */
+    #selection-area {
+      height: 650px;
+      background-color: #f2f2f2;
+    }
+    .radio-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .radio-container input[type="radio"] {
+        margin-right: 5px;
+    }
+
+    /* 设置运行区域 */
+    #action-area {
+        height:50px;
+        background-color: #ffffff;
+    }
+
+    /* 设置结果显示区域的样式 */
+    #result-area {
+      height: 300px;
+      background-color: #ffffff;
+    }
+    .evaluationOption {
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .modelOption {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+
+    .hidden {
+        display: none;
+    }
+
+    h1 {
+        font-family: "微软雅黑", sans-serif;
+        text-align: center;
+    }
+</style>
+
+
+<script>
+           function updateOptions() {
+    var dataset = document.querySelector('input[name="Dataset"]:checked').value;
+
+    var distanceOption = document.getElementById("distanceOption");
+    distanceOption.style.display = (dataset === "iris" ) ? "none" : "inline";
+
+    var mseOption = document.getElementById("mseOption");
+    mseOption.style.display = (dataset === "iris" ) ? "none" : "inline";
+
+    var rmseOption = document.getElementById("rmseOption");
+    rmseOption.style.display = (dataset === "iris" ) ? "none" : "inline";
+
+    var aucOption = document.getElementById("aucOption");
+    aucOption.style.display = (dataset === "heart") ? "inline" : "none";
+
+    var f1Option = document.getElementById("f1Option");
+    f1Option.style.display = (dataset === "heart") ? "inline" : "none";
+
+    var prOption = document.getElementById("prOption");
+    prOption.style.display = (dataset === "heart") ? "inline" : "none";
+
+
+    var rocOption = document.getElementById("rocOption");
+    rocOption.style.display = (dataset === "heart") ? "inline" : "none";
+
+
+
+    var GradientBoostingOption = document.getElementById("GradientBoostingOption");
+    GradientBoostingOption.style.display = (dataset === "iris") ? "none" : "inline";
+
+    var LROption = document.getElementById("LROption");
+    LROption.style.display = (dataset === "iris") ? "none" : "inline";
+
+    var LogisticRegressionOption = document.getElementById("LogisticRegressionOption");
+    LogisticRegressionOption.style.display = (dataset === "heart") ? "inline" : "none";
+
+    var SVMOption = document.getElementById("SVMOption");
+    SVMOption.style.display = (dataset === "heart") ? "inline" : "none";
+
+    var DecisionTreeOption = document.getElementById("DecisionTreeOption");
+    DecisionTreeOption.style.display = (dataset === "iris") ? "none" : "inline";
+
+     var RandomForestOption = document.getElementById("RandomForestOption");
+    RandomForestOption.style.display = (dataset === "iris") ? "none" : "inline";
+
+}
+function updatepercent() {
+var splitter = document.querySelector('input[name="splitter"]:checked').value;
+
+var percentOption = document.getElementById("percentOption");
+percentOption.style.display = (splitter === "houldout") ? "block" : "none";
+}
+
+
+    </script>
+
+</head>
+<body>
+<h1>
+    <p align="center">机器学习模型评估</p>
+</h1>
+
+
+    <div id="selection-area">
+<br>
+        <h2><p align="center"> 选择数据集：</p></h2>
+        <div class="radio-container">
+
+            <input type="radio" name="Dataset" value="iris" onchange="updateOptions()"> 鸢尾花数据集
+            <input type="radio" name="Dataset" value="wine" onchange="updateOptions()"> 红酒数据集
+            <input type="radio" name="Dataset" value="heart" onchange="updateOptions()"> 心脏病数据集
+        </div>
+
+        <br>
+
+
+        <h2><p align="center">选择分割器：</p></h2>
+        <div class="radio-container">
+            <input type="radio" name="splitter" value="houldout" onchange="updatepercent()"> 留出法
+            <input type="radio" name="splitter" value="cv" onchange="updatepercent()"> 交叉验证法
+            <input type="radio" name="splitter" value="bootstraping" onchange="updatepercent()"> 自助法
+            </div>
+
+        <br>
+
+        <div id="percentOption">
+            <h2><p align="center">选择分割比例：</p></h2>
+            <div class="radio-container">
+            <input type="radio" name="percent" value="10%"> 10%
+            <input type="radio" name="percent" value="30%"> 30%
+                </div>
+        </div>
+
+        <br>
+
+        <h2><p align="center">选择机器学习模型：</p></h2>
+            <div class="radio-container">
+
+               <div id="KNNOption" class="modelOption">
+            <input type="radio" name="model" value="KNN"> KNN
+               </div>
+               <div id="K_meansOption" class="modelOption">
+            <input type="radio" name="model" value="K_means"> K_means
+               </div>
+               <div id="SVMOption" class="modelOption">
+                <input type="radio" name="model" value="SVM"> SVM
+               </div>
+                <div id="GradientBoostingOption" class="modelOption">
+                    <input type="radio" name="model" value="GradientBoosting"> GradientBoosting
+                </div>
+                <div id="LROption" class="modelOption">
+            <input type="radio" name="model" value="LR"> 线性回归
+                </div>
+                <div id="LogisticRegressionOption" class="modelOption">
+            <input type="radio" name="model" value="LogisticRegression"> 逻辑回归
+                </div>
+                <div id="NBOption" class="modelOption">
+            <input type="radio" name="model" value="NB"> 朴素贝叶斯
+                </div>
+                <div id="DecisionTreeOption" class="modelOption">
+            <input type="radio" name="model" value="Decision Tree"> 决策树
+                </div>
+                <div id="RandomForestOption" class="modelOption">
+            <input type="radio" name="model" value="Random Forest"> 随机森林
+                </div>
+                </div>
+
+
+
+        <br>
+
+        <h2><p align="center">选择模型评估指标：</p></h2>
+                <div class="radio-container">
+
+
+        <div id="accuracyOption" class="evaluationOption">
+            <input type="radio" name="evaluation" value="accuracy"> Accuracy
+        </div>
+        <div id="aucOption" class="evaluationOption">
+            <input type="radio" name="evaluation" value="distance"> Distance
+        </div>
+        <div id="distanceOption" class="evaluationOption">
+            <input type="radio" name="evaluation" value="auc"> AUC
+        </div>
+        <div id="f1Option" class="evaluationOption">
+            <input type="radio" name="evaluation" value="f1"> F1
+        </div>
+        <div id="fmOption" class="evaluationOption">
+            <input type="radio" name="evaluation" value="fm"> FM
+        </div>
+        <div id="mseOption" class="evaluationOption">
+            <input type="radio" name="evaluation" value="mse"> MSE
+        </div>
+        <div id="prOption" class="evaluationOption">
+            <input type="radio" name="evaluation" value="pr"> PR
+        </div>
+        <div id="randOption" class="evaluationOption">
+            <input type="radio" name="evaluation" value="rand"> Rand
+        </div>
+        <div id="rmseOption" class="evaluationOption">
+            <input type="radio" name="evaluation" value="rmse"> RMSE
+        </div>
+        <div id="rocOption" class="evaluationOption">
+            <input type="radio" name="evaluation" value="roc"> ROC
+        </div>
+                    </div>
+
+        <br><br>
+
+    </div>
+
+    <div id="action-area">
+<div class="radio-container">
+    <br><br>
+        <input type="submit" value="运行">
+</div>
+    </div>
+    <div id="result-area">
+        <!-- 在这里显示运行结果 -->
+        <h2>运行结果</h2>
+        <p>这里显示你的运行结果。</p>
+    </div>
+</body>
+</html>
