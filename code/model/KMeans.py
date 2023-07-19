@@ -1,5 +1,6 @@
 import numpy as np
 from Model import Model
+from PCA import PCA
 
 
 # K均值聚类算法，聚类
@@ -15,6 +16,9 @@ class KMeans(Model):
 
     # k均值聚类算法实现
     def fit(self, data):
+        if data.ndim > 4:
+            pca = PCA(2)
+            data = pca.transform(data)
         random_indices = np.random.choice(len(data), self.k, replace=False)
         self.centroids = [data[i] for i in random_indices]  # 选取k个初始聚类中心
         for _ in range(self.max_iterations):
@@ -37,12 +41,11 @@ class KMeans(Model):
             predictions.append(closest_centroid_index)
         return predictions
 
-
 # # KMeans示例用法
 # if __name__ == '__main__':
 #     import pandas as pd
 #     from sklearn.model_selection import train_test_split
-# 
+#
 #     # 鸢尾花数据集
 #     # 数据载入
 #     iris = pd.read_csv('../data/Iris.csv')
@@ -57,7 +60,7 @@ class KMeans(Model):
 #     clf.fit(x_train)
 #     train_predict = clf.predict(x_train)
 #     test_predict = clf.predict(x_test)
-# 
+#
 #     # 红酒数据集
 #     # 数据载入
 #     wine = pd.read_csv('../data/WineQT.csv')
@@ -72,7 +75,7 @@ class KMeans(Model):
 #     clf.fit(x_train)
 #     train_predict = clf.predict(x_train)
 #     test_predict = clf.predict(x_test)
-# 
+#
 #     # 心脏病数据集
 #     # 数据载入
 #     heart = pd.read_csv('../data/heart.csv')
