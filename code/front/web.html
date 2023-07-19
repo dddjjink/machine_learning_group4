@@ -40,6 +40,14 @@
         display: inline-block;
         margin-right: 10px;
     }
+    .datasetOption {
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .splitterOption {
+        display: inline-block;
+        margin-right: 10px;
+    }
 
 
     .hidden {
@@ -101,10 +109,47 @@
 
 }
 function updatepercent() {
-var splitter = document.querySelector('input[name="splitter"]:checked').value;
+    var splitter = document.querySelector('input[name="splitter"]:checked').value;
 
-var percentOption = document.getElementById("percentOption");
-percentOption.style.display = (splitter === "houldout") ? "block" : "none";
+    var percentOption = document.getElementById("percentOption");
+    percentOption.style.display = (splitter === "houldout") ? "block" : "none";
+}
+function updatedata() {
+    var model = document.querySelector('input[name="model"]:checked').value;
+
+    var irisOption = document.getElementById("irisOption");
+    irisOption.style.display = (model === "K_means" || model === "KNN" || model === "NB") ? "inline" : "none";
+
+    var wineOption = document.getElementById("wineOption");
+    wineOption.style.display = (model === "SVM" || model === "LogisticRegression") ? "none" : "inline";
+
+}
+function updatedata1() {
+    var evaluation = document.querySelector('input[name="evaluation"]:checked').value;
+
+    var irisOption = document.getElementById("irisOption");
+    irisOption.style.display = (evaluation === "accuracy" || evaluation === "fm" || evaluation === "rand") ? "inline" : "none";
+
+    var wineOption = document.getElementById("wineOption");
+    wineOption.style.display = (evaluation === "auc" || evaluation === "f1" || evaluation === "pr" || evaluation === "roc") ? "none" : "inline";
+
+}
+function updatesplitter() {
+    var percent = document.querySelector('input[name="percent"]:checked').value;
+
+    var cvOption = document.getElementById("cvOption");
+    cvOption.style.display = (percent === "10%" || percent === "30%") ? "none" : "inline";
+
+    var boostrapingOption = document.getElementById("boostrapingOption");
+    boostrapingOption.style.display = (percent === "10%" || percent === "30%") ? "none" : "inline";
+
+}
+function resetForm() {
+    var radioButtons = document.querySelectorAll('input[type="radio"]');
+
+    for (var i = 0; i < radioButtons.length; i++) {
+        radioButtons[i].checked = false;
+    }
 }
 
 
@@ -121,10 +166,15 @@ percentOption.style.display = (splitter === "houldout") ? "block" : "none";
 <br>
         <h2><p align="center"> 选择数据集：</p></h2>
         <div class="radio-container">
-
+            <div id="irisOption" class="datasetOption">
             <input type="radio" name="Dataset" value="iris" onchange="updateOptions()"> 鸢尾花数据集
+            </div>
+            <div id="wineOption" class="datasetOption">
             <input type="radio" name="Dataset" value="wine" onchange="updateOptions()"> 红酒数据集
+            </div>
+            <div id="heartOption" class="datasetOption">
             <input type="radio" name="Dataset" value="heart" onchange="updateOptions()"> 心脏病数据集
+            </div>
         </div>
 
         <br>
@@ -132,9 +182,15 @@ percentOption.style.display = (splitter === "houldout") ? "block" : "none";
 
         <h2><p align="center">选择分割器：</p></h2>
         <div class="radio-container">
+            <div id="holdoutOption" class="splitterOption">
             <input type="radio" name="splitter" value="houldout" onchange="updatepercent()"> 留出法
+            </div>
+            <div id="cvOption" class="splitterOption">
             <input type="radio" name="splitter" value="cv" onchange="updatepercent()"> 交叉验证法
+            </div>
+            <div id="boostrapingOption" class="splitterOption">
             <input type="radio" name="splitter" value="bootstraping" onchange="updatepercent()"> 自助法
+            </div>
             </div>
 
         <br>
@@ -142,8 +198,8 @@ percentOption.style.display = (splitter === "houldout") ? "block" : "none";
         <div id="percentOption">
             <h2><p align="center">选择分割比例：</p></h2>
             <div class="radio-container">
-            <input type="radio" name="percent" value="10%"> 10%
-            <input type="radio" name="percent" value="30%"> 30%
+            <input type="radio" name="percent" value="10%" onchange="updatesplitter()"> 10%
+            <input type="radio" name="percent" value="30%" onchange="updatesplitter()"> 30%
                 </div>
         </div>
 
@@ -153,31 +209,31 @@ percentOption.style.display = (splitter === "houldout") ? "block" : "none";
             <div class="radio-container">
 
                <div id="KNNOption" class="modelOption">
-            <input type="radio" name="model" value="KNN"> KNN
+            <input type="radio" name="model" value="KNN" onchange="updatedata()"> KNN
                </div>
                <div id="K_meansOption" class="modelOption">
-            <input type="radio" name="model" value="K_means"> K_means
+            <input type="radio" name="model" value="K_means" onchange="updatedata()"> K_means
                </div>
                <div id="SVMOption" class="modelOption">
-                <input type="radio" name="model" value="SVM"> SVM
+                <input type="radio" name="model" value="SVM" onchange="updatedata()"> SVM
                </div>
                 <div id="GradientBoostingOption" class="modelOption">
-                    <input type="radio" name="model" value="GradientBoosting"> GradientBoosting
+                    <input type="radio" name="model" value="GradientBoosting" onchange="updatedata()"> GradientBoosting
                 </div>
                 <div id="LROption" class="modelOption">
-            <input type="radio" name="model" value="LR"> 线性回归
+            <input type="radio" name="model" value="LR" onchange="updatedata()"> 线性回归
                 </div>
                 <div id="LogisticRegressionOption" class="modelOption">
-            <input type="radio" name="model" value="LogisticRegression"> 逻辑回归
+            <input type="radio" name="model" value="LogisticRegression" onchange="updatedata()"> 逻辑回归
                 </div>
                 <div id="NBOption" class="modelOption">
-            <input type="radio" name="model" value="NB"> 朴素贝叶斯
+            <input type="radio" name="model" value="NB" onchange="updatedata()"> 朴素贝叶斯
                 </div>
                 <div id="DecisionTreeOption" class="modelOption">
-            <input type="radio" name="model" value="Decision Tree"> 决策树
+            <input type="radio" name="model" value="Decision Tree" onchange="updatedata()"> 决策树
                 </div>
                 <div id="RandomForestOption" class="modelOption">
-            <input type="radio" name="model" value="Random Forest"> 随机森林
+            <input type="radio" name="model" value="Random Forest" onchange="updatedata()"> 随机森林
                 </div>
                 </div>
 
@@ -190,34 +246,34 @@ percentOption.style.display = (splitter === "houldout") ? "block" : "none";
 
 
         <div id="accuracyOption" class="evaluationOption">
-            <input type="radio" name="evaluation" value="accuracy"> Accuracy
+            <input type="radio" name="evaluation" value="accuracy" onchange="updatedata1()"> Accuracy
         </div>
         <div id="aucOption" class="evaluationOption">
-            <input type="radio" name="evaluation" value="distance"> Distance
+            <input type="radio" name="evaluation" value="distance" onchange="updatedata1()"> Distance
         </div>
         <div id="distanceOption" class="evaluationOption">
-            <input type="radio" name="evaluation" value="auc"> AUC
+            <input type="radio" name="evaluation" value="auc" onchange="updatedata1()"> AUC
         </div>
         <div id="f1Option" class="evaluationOption">
-            <input type="radio" name="evaluation" value="f1"> F1
+            <input type="radio" name="evaluation" value="f1" onchange="updatedata1()"> F1
         </div>
         <div id="fmOption" class="evaluationOption">
-            <input type="radio" name="evaluation" value="fm"> FM
+            <input type="radio" name="evaluation" value="fm" onchange="updatedata1()"> FM
         </div>
         <div id="mseOption" class="evaluationOption">
-            <input type="radio" name="evaluation" value="mse"> MSE
+            <input type="radio" name="evaluation" value="mse" onchange="updatedata1()"> MSE
         </div>
         <div id="prOption" class="evaluationOption">
-            <input type="radio" name="evaluation" value="pr"> PR
+            <input type="radio" name="evaluation" value="pr" onchange="updatedata1()"> PR
         </div>
         <div id="randOption" class="evaluationOption">
-            <input type="radio" name="evaluation" value="rand"> Rand
+            <input type="radio" name="evaluation" value="rand" onchange="updatedata1()"> Rand
         </div>
         <div id="rmseOption" class="evaluationOption">
-            <input type="radio" name="evaluation" value="rmse"> RMSE
+            <input type="radio" name="evaluation" value="rmse" onchange="updatedata1()"> RMSE
         </div>
         <div id="rocOption" class="evaluationOption">
-            <input type="radio" name="evaluation" value="roc"> ROC
+            <input type="radio" name="evaluation" value="roc" onchange="updatedata1()"> ROC
         </div>
                     </div>
 
@@ -225,12 +281,14 @@ percentOption.style.display = (splitter === "houldout") ? "block" : "none";
 
     </div>
 
-    <div id="action-area">
-<div class="radio-container">
-    <br><br>
-        <input type="submit" value="运行">
-</div>
+<div id="action-area">
+    <div class="radio-container">
+        <br><br>
+        <span><input type="submit" value="运行"></span>
+        <span style="margin: 0 20px;"><input type="button" value="重置" onclick="resetForm()"></span>
     </div>
+</div>
+
     <div id="result-area">
         <!-- 在这里显示运行结果 -->
         <h2>运行结果</h2>
