@@ -1,5 +1,6 @@
 import numpy as np
 from Model import Model
+from PCA import PCA
 
 
 class LinearRegression(Model):
@@ -13,6 +14,10 @@ class LinearRegression(Model):
         self._theta = None
 
     def fit(self, X_train, y_train):
+        if X_train.ndim > 4:
+            pca = PCA(2)
+            X_train = pca.transform(X_train)
+            y_train = pca.transform(y_train)
         """根据训练数据集X_train，y_train 训练Linear Regression模型"""
         assert X_train.shape[0] == y_train.shape[0], \
             "the size of X_train must be equal to the size of y_train"
@@ -41,7 +46,7 @@ class LinearRegression(Model):
 # if __name__ == '__main__':
 #     import pandas as pd
 #     from sklearn.model_selection import train_test_split
-# 
+#
 #     # '''
 #     # 对本例目前使用的鸢尾花数据集不适用，若要使用该数据集，需要先对target数据进行处理（str->int）
 #     # '''
@@ -60,7 +65,7 @@ class LinearRegression(Model):
 #     # train_predict = clf.predict(x_train)
 #     # test_predict = clf.predict(x_test)
 #     # print(test_predict)
-# 
+#
 #     # 红酒数据集
 #     # 数据载入
 #     wine = pd.read_csv('../data/WineQT.csv')
@@ -76,7 +81,7 @@ class LinearRegression(Model):
 #     train_predict = clf.predict(x_train)
 #     test_predict = clf.predict(x_test)
 #     print(train_predict)
-# 
+#
 #     # 心脏病数据集
 #     # 数据载入
 #     heart = pd.read_csv('../data/heart.csv')
