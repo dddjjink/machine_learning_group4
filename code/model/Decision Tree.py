@@ -1,184 +1,129 @@
-from math import log
-
-import pandas as pd
-
-
-# # 构造数据集
-# def create_dataset():
-#     dataset = [['youth', 'no', 'no', 'just so-so', 'no'],
-#                ['youth', 'no', 'no', 'good', 'no'],
-#                ['youth', 'yes', 'no', 'good', 'yes'],
-#                ['youth', 'yes', 'yes', 'just so-so', 'yes'],
-#                ['youth', 'no', 'no', 'just so-so', 'no'],
-#                ['midlife', 'no', 'no', 'just so-so', 'no'],
-#                ['midlife', 'no', 'no', 'good', 'no'],
-#                ['midlife', 'yes', 'yes', 'good', 'yes'],
-#                ['midlife', 'no', 'yes', 'great', 'yes'],
-#                ['midlife', 'no', 'yes', 'great', 'yes'],
-#                ['geriatric', 'no', 'yes', 'great', 'yes'],
-#                ['geriatric', 'no', 'yes', 'good', 'yes'],
-#                ['geriatric', 'yes', 'no', 'good', 'yes'],
-#                ['geriatric', 'yes', 'no', 'great', 'yes'],
-#                ['geriatric', 'no', 'no', 'just so-so', 'no']]
-#     features = ['age', 'work', 'house', 'credit']
-#     return dataset, features
+from Model import Model
+import numpy as np
 
 
-# 计算信息熵
-class DcTree:
-    def __init__(self,dataset):
-        self.data:pd.DataFrame=dataset
+class Node:
+    def __init__(self, feature_index=None, threshold=None, value=None, left=None, right=None):
+        self.feature_index = feature_index  # 特征索引
+        self.threshold = threshold  # 划分阈值
+        self.value = value  # 叶节点取值
+        self.left = left  # 左子树
+        self.right = right  # 右子树
 
 
+class DecisionTree(Model):
+    def __init__(self, max_depth=float('inf'), min_samples_split=2, min_impurity_decrease=0.0):
+        self.max_depth = max_depth  # 最大深度
+        self.min_samples_split = min_samples_split  # 最小样本数
+        self.min_impurity_decrease = min_impurity_decrease  # 最小不纯度减少值
 
+    def calculate_gain(self, parent, left, right):
+        return self.calculate_mse(parent) - (len(left) / len(parent)) * self.calculate_mse(left) \
+            - (len(right) / len(parent)) * self.calculate_mse(right)
 
-    def compute_entropy(self ):
-        # 求总样本数
-        num_of_examples = len(self.data)
-        labelCnt = {}
-        # 遍历整个样本集合
-        for example in self.data:
-            # 当前样本的标签值是该列表的最后一个元素
-            currentLabel = example[-1]
-            # 统计每个标签各出现了几次
-            if currentLabel not in labelCnt.keys():
-                labelCnt[currentLabel] = 0
-            labelCnt[currentLabel] += 1
-        entropy = 0.0
-        # 对于原样本集，labelCounts = {'no': 6, 'yes': 9}
-        # 对应的初始shannonEnt = (-6/15 * log(6/15)) + (- 9/15 * log(9/15))
-        for key in labelCnt:
-            p = labelCnt[key] / num_of_examples
-            entropy -= p * log(p, 2)
-        return entropy
+    def calculate_mse(self, labels):
+        if len(labels) == 0:
+            return 0
+        mean_value = np.mean(labels)
+        mse = np.mean((labels - mean_value) ** 2)
+        return mse
 
-    # 提取子集合
-    # 功能：从dataSet中先找到所有第axis个标签值 = value的样本
-    # 然后将这些样本删去第axis个标签值，再全部提取出来成为一个新的样本集
-    def create_sub_dataset(self, index, value):
-        sub_dataset = []
-        for example in self.data:
-            current_list = []
-            if example[index] == value:
-                current_list = example[:index]
-                current_list.extend(example[index + 1:])
-                sub_dataset.append(current_list)
-        return sub_dataset
+    def fit(self, X, y, depth=0):
+        if depth >= self.max_depth or len(set(y)) == 1:
+            return np.mean(y)
 
-    def choose_best_feature(self):
-        num_of_features = len(self.data[0]) - 1
-        # 计算当前数据集的信息熵
-        current_entropy = self.compute_entropy(self.data)
-        # 初始化信息增益率
-        best_information_gain_ratio = 0.0
-        # 初始化最佳特征的下标为-1
-        index_of_best_feature = -1
-        # 通过下标遍历整个特征列表
-        for i in range(num_of_features):
-            # 构造所有样本在当前特征的取值的列表
-            values_of_current_feature = [example[i] for example in self.data]
-            unique_values = set(values_of_current_feature)
-            # 初始化新的信息熵
-            new_entropy = 0.0
-            # 初始化分离信息
-            split_info = 0.0
+        best_split_feature, best_split_value, best_gain = None, None, -np.inf
+        best_left_indices, best_right_indices = None, None
+
+        for feature in range(X.shape[1]):
+            unique_values = np.unique(X[:, feature])
             for value in unique_values:
-                sub_dataset = self.create_sub_dataset(self.data, i, value)
-                p = len(sub_dataset) / len(self.data)
-                # 计算使用该特征进行样本划分后的新信息熵
-                new_entropy += p * self.compute_entropy(sub_dataset)
-                # 计算分离信息
-                split_info -= p * log(p, 2)
-            # 计算信息增益
-            # information_gain = current_entropy - new_entropy
-            # 计算信息增益率（Gain_Ratio = Gain / Split_Info）
-            information_gain_ratio = (current_entropy - new_entropy) / split_info
-            # 求出最大的信息增益及对应的特征下标
-            if information_gain_ratio > best_information_gain_ratio:
-                best_information_gain_ratio = information_gain_ratio
-                index_of_best_feature = i
-        # 这里返回的是特征的下标
-        return index_of_best_feature
+                left_indices = np.where(X[:, feature] <= value)[0]
+                right_indices = np.where(X[:, feature] > value)[0]
+                gain = self.calculate_gain(y, y[left_indices], y[right_indices])
+                if gain > best_gain:
+                    best_gain = gain
+                    best_split_feature = feature
+                    best_split_value = value
+                    best_left_indices = left_indices
+                    best_right_indices = right_indices
 
-    # 返回具有最多样本数的那个标签的值（'yes' or 'no'）
-    def find_label(self,classList):
-        # 初始化统计各标签次数的字典
-        # 键为各标签，对应的值为标签出现的次数
-        labelCnt = {}
-        for key in classList:
-            if key not in labelCnt.keys():
-                labelCnt[key] = 0
-            labelCnt[key] += 1
-        # 将classCount按值降序排列
-        # 例如：sorted_labelCnt = {'yes': 9, 'no': 6}
-        sorted_labelCnt = sorted(labelCnt.items(), key=lambda a: a[1], reverse=True)
-        # 下面这种写法有问题
-        # sortedClassCount = sorted(labelCnt.iteritems(), key=operator.itemgetter(1), reverse=True)
-        # 取sorted_labelCnt中第一个元素中的第一个值，即为所求
-        return sorted_labelCnt[0][0]
+        if best_gain == 0:
+            return np.mean(y)
 
-    def create_decision_tree(self, features):
-        # 求出训练集所有样本的标签
-        # 对于初始数据集，其label_list = ['no', 'no', 'yes', 'yes', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no']
-        label_list = [example[-1] for example in self.data]
-        # 先写两个递归结束的情况：
-        # 若当前集合的所有样本标签相等（即样本已被分“纯”）
-        # 则直接返回该标签值作为一个叶子节点
-        if label_list.count(label_list[0]) == len(label_list):
-            return label_list[0]
-        # 若训练集的所有特征都被使用完毕，当前无可用特征，但样本仍未被分“纯”
-        # 则返回所含样本最多的标签作为结果
-        if len(self.data[0]) == 1:
-            return self.find_label(label_list)
-        # 下面是正式建树的过程
-        # 选取进行分支的最佳特征的下标
-        index_of_best_feature = self.choose_best_feature(self.data)
-        # 得到最佳特征
-        best_feature = features[index_of_best_feature]
-        # 初始化决策树
-        decision_tree = {best_feature: {}}
-        # 使用过当前最佳特征后将其删去
-        del (features[index_of_best_feature])
-        # 取出各样本在当前最佳特征上的取值列表
-        values_of_best_feature = [example[index_of_best_feature] for example in self.data]
-        # 用set()构造当前最佳特征取值的不重复集合
-        unique_values = set(values_of_best_feature)
-        # 对于uniqueVals中的每一个取值
-        for value in unique_values:
-            # 子特征 = 当前特征（因为刚才已经删去了用过的特征）
-            sub_features = features[:]
-            # 递归调用create_decision_tree去生成新节点
-            decision_tree[best_feature][value] = self.create_decision_tree(
-                self.create_sub_dataset(self.data, index_of_best_feature, value), sub_features)
-        return decision_tree
+        left_tree = self.fit(X[best_left_indices], y[best_left_indices], depth + 1)
+        right_tree = self.fit(X[best_right_indices], y[best_right_indices], depth + 1)
+        self.tree = {'feature': best_split_feature, 'value': best_split_value, 'left': left_tree, 'right': right_tree}
+        return self.tree
 
-    # 用上面训练好的决策树对新样本分类
-    def classify(self,decision_tree, features, test_example):
-        # 根节点代表的属性
-        first_feature = list(decision_tree.keys())[0]
-        # second_dict是第一个分类属性的值（也是字典）
-        second_dict = decision_tree[first_feature]
-        # 树根代表的属性，所在属性标签中的位置，即第几个属性
-        index_of_first_feature = features.index(first_feature)
-        # 对于second_dict中的每一个key
-        for key in second_dict.keys():
-            if test_example[index_of_first_feature] == key:
-                # 若当前second_dict的key的value是一个字典
-                if type(second_dict[key]).__name__ == 'dict':
-                    # 则需要递归查询
-                    classLabel = self.classify(second_dict[key], features, test_example)
-                # 若当前second_dict的key的value是一个单独的值
-                else:
-                    # 则就是要找的标签值
-                    classLabel = second_dict[key]
-        return classLabel
+    def predict_tree(self, X, tree):
+        if isinstance(tree, np.float64):
+            return np.full(len(X), tree)
+        predictions = np.zeros(len(X))
+        for i in range(len(X)):
+            if X[i, tree['feature']] <= tree['value']:
+                predictions[i] = self.predict_tree(X[i].reshape(1, -1), tree['left'])
+            else:
+                predictions[i] = self.predict_tree(X[i].reshape(1, -1), tree['right'])
+        return predictions
 
+    def predict(self, X):
+        return self.predict_tree(X, self.tree)
+
+
+# # 决策树示例用法
 # if __name__ == '__main__':
-#     dataset, features = create_dataset()
-#     decision_tree = create_decision_tree(dataset, features)
-#     # 打印生成的决策树
-#     print(decision_tree)
-#     # 对新样本进行分类测试
-#     features = ['age', 'work', 'house', 'credit']
-#     test_example = ['midlife', 'yes', 'no', 'great']
-#     print('\n', classify(decision_tree, features, test_example))
+#     import pandas as pd
+#     from sklearn.model_selection import train_test_split
+# 
+#     # '''
+#     # 对本例目前使用的鸢尾花数据集不适用，若要使用该数据集，需要先对target数据进行处理（str->int）
+#     # '''
+#     # # 鸢尾花数据集
+#     # # 数据载入
+#     # iris = pd.read_csv('../data/Iris.csv')
+#     # # print(iris.head(10))
+#     # # 数据分割
+#     # x = iris.drop(['Species', 'Id'], axis=1).values
+#     # y = iris['Species'].values
+#     # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # # print(x_train, x_test, y_train, y_test)
+#     # # 模型训练、预测
+#     # clf = DecisionTree()
+#     # clf.fit(x_train, y_train)
+#     # train_predict = clf.predict(x_train)
+#     # test_predict = clf.predict(x_test)
+#     # print(test_predict)
+# 
+#     # 红酒数据集
+#     # 数据载入
+#     wine = pd.read_csv('../data/WineQT.csv')
+#     # print(wine.head(10))
+#     # 数据分割
+#     x = wine.drop(['quality', 'Id'], axis=1).values
+#     y = wine['quality'].values
+#     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # print(x_train, x_test, y_train, y_test)
+#     # 模型训练、预测
+#     clf = DecisionTree()
+#     clf.fit(x_train, y_train)
+#     train_predict = clf.predict(x_train)
+#     test_predict = clf.predict(x_test)
+#     print(test_predict)
+# 
+#     # 心脏病数据集
+#     # 数据载入
+#     heart = pd.read_csv('../data/heart.csv')
+#     # print(heart.head(10))
+#     # 数据分割
+#     x = heart.drop(['target'], axis=1).values
+#     y = heart['target'].values
+#     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # print(x_train, x_test, y_train, y_test)
+#     # 模型训练、预测
+#     clf = DecisionTree()
+#     clf.fit(x_train, y_train)
+#     train_predict = clf.predict(x_train)
+#     test_predict = clf.predict(x_test)
+#     print(y_test)
+#     print(test_predict)
