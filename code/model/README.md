@@ -16,6 +16,7 @@
 - GBDT
 - LinearRegression
 - DecisionTree
+- RandomForest
 #### 心脏病数据集（二分类）
 - SVM
 - KMeans
@@ -23,3 +24,4 @@
 - LinearRegression
 - LogisticRegression
 - DecisionTree
+- RandomForest
