@@ -1,103 +1,98 @@
-
 import numpy as np
-class NB:
-    '''朴素贝叶斯分类器'''
+from Model import Model
 
-    def __init__(self, data, label):
-        self.data = data  # 训练数据
-        self.label = label  # 训练数据类别
-        self.n = len(data)  # 数据样本个数
-        self.p = len(data[0])  # 属性个数
-        self.pCondition, self.pClass = self.train()
 
-    def Cal_class(self):
-        '''计算训练样本的类别'''
-        c = set()
-        for i in self.label:
-            c.add(i)
-        return c
+# 朴素贝叶斯分类器
+class NB(Model):
+    def __init__(self):
+        self.prior = {}
+        self.conditional_prob = {}
 
-    def Cal_value(self, attr):
-        '''计算属性attr的可能取值'''
-        v = set()
-        for i in self.data[:, attr]:
-            v.add(i)
-        return v
+    def fit(self, X, y):
+        # 计算先验概率
+        unique_y = set(y)
+        for label in unique_y:
+            self.prior[label] = np.sum(y == label) / len(y)
 
-    def train(self):
-        '''计算P(c)与P(x|c)'''
-        str_type = type(np.array(['a'])[0])  # 用于后面属性数据类型的判断，此处为numpy.str类型
-        int_type = type(np.array([1])[0])  # numpy.int类型
-        float_type = type(np.array([1.1])[0])  # numpy.float类型
-        c = self.Cal_class()
-        pClass = {}  # 用于储存各类的概率P（c）
-        numClass = {}  # 用于储存各类的个数
-        pCondition = [{} for i in range(self.p)]  # 列表中每个字典用于储存对应属性的类条件概率；若为连续性，储存μ与σ
-        for i in range(self.n):
-            if self.label[i] not in pClass:
-                pClass[self.label[i]] = 1 / (self.n + len(c))  # 分子加1，为拉普拉斯修正
-                numClass[self.label[i]] = 0
-            pClass[self.label[i]] += 1 / (self.n + len(c))  # 统计各类出现的概率
-            numClass[self.label[i]] += 1  # 统计各类的数值
-        for j in range(self.p):
-            '''逐个属性计算'''
-            if type(self.data[0][j]) == str_type:
-                '''计算离散型属性的类条件概率'''
-                v = self.Cal_value(attr=j)
-                for i in range(self.n):
-                    if self.label[i] not in pCondition[j]:
-                        init_num = [1 / (pClass[self.label[i]] + len(v)) for i in range(len(v))]  # 初始数据，并采用拉普拉斯修正
-                        pCondition[j][self.label[i]] = dict(zip(v, init_num))  # 用于统计label[i]类下的j属性的条件概率
-                    pCondition[j][self.label[i]][self.data[i][j]] += 1 / (pClass[self.label[i]] + len(v))
-            elif type(self.data[0][j]) == float_type or int_type:
-                '''计算连续型属性的类条件概率'''
-                data_class = {}  # 储存该属性中各类对应的数据
-                for i in range(self.n):
-                    if self.label[i] not in data_class:
-                        data_class[self.label[i]] = [self.data[i][j]]
-                    else:
-                        data_class[self.label[i]].append(self.data[i][j])
-                for key in data_class.keys():
-                    miu, sigma = np.mean(data_class[key]), np.var(data_class[key])
-                    pCondition[j][key] = {'miu': miu, 'sigma': sigma}
-        return pCondition, pClass
+        # 计算条件概率
+        for feature in range(X.shape[1]):
+            unique_feature = set(X[:, feature])
+            for label in unique_y:
+                key = (feature, label)
+                self.conditional_prob[key] = {}
+                for value in unique_feature:
+                    self.conditional_prob[key][value] = np.sum(
+                        (X[:, feature] == value) & (y == label)
+                    ) / np.sum(y == label)
 
-    def Cal_p(self, attr, x, c):
-        '''计算属性attr中值为x的c类条件概率：P(x|c)
-        attr:属性，值为0~p-1
-        x:值，为连续的数或离散的值
-        c:类'''
-        if 'miu' and 'sigma' in self.pCondition[attr][c]:
-            '''判断是否为连续型属性，此时是连续型属性'''
-            miu = self.pCondition[attr][c]['miu']
-            sigma = self.pCondition[attr][c]['sigma']
-            p = np.exp(-(x - miu) ** 2 / (2 * sigma)) / np.sqrt(2 * np.pi * sigma)
-            return p
-        else:
-            p = self.pCondition[attr][c][x]
-            return p
+    def predict(self, X):
+        y_pred = []
+        for i in range(X.shape[0]):
+            posterior_prob = {}
+            for label in self.prior:
+                posterior_prob[label] = np.log(self.prior[label])
+                for feature in range(X.shape[1]):
+                    key = (feature, label)
+                    if X[i, feature] in self.conditional_prob[key]:
+                        posterior_prob[label] += np.log(self.conditional_prob[key][X[i, feature]])
 
-    def predict(self, x):
-        '''根据一组数据x预测其属于哪一类
-        x:长度为p的列表或array类型'''
-        p = {}  # 储存属于各类的概率
-        for c in self.pClass.keys():
-            pc = np.log(self.pClass[c])
-            for i in range(self.p):
-                pc += np.log(self.Cal_p(attr=i, x=x[i], c=c))
+            y_pred.append(max(posterior_prob, key=posterior_prob.get))
 
-            p[c] = pc
-        maxp = max(p.values())  # 选取最大概率
-        for key, value in p.items():
-            if value == maxp:
-                return key
+        return y_pred
 
-    def test(self, testData, testLabel):
-        '''利用测试集测试模型准确性'''
-        n = len(testData)
-        correct = 0  # 统计正确的个数
-        for i in range(n):
-            if self.predict(testData[i]) == testLabel[i]:
-                correct += 1
-        return correct / n
 
+# # 朴素贝叶斯分类器示例用法
+# if __name__ == '__main__':
+#     import pandas as pd
+#     from sklearn.model_selection import train_test_split
+# 
+#     # 鸢尾花数据集
+#     # 数据载入
+#     iris = pd.read_csv('../data/Iris.csv')
+#     # print(iris.head(10))
+#     # 数据分割
+#     x = iris.drop(['Species', 'Id'], axis=1).values
+#     y = iris['Species'].values
+#     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # print(x_train, x_test, y_train, y_test)
+#     # 模型训练、预测
+#     clf = NB()
+#     clf.fit(x_train, y_train)
+#     train_predict = clf.predict(x_train)
+#     test_predict = clf.predict(x_test)
+#     print(test_predict)
+# 
+#     '''
+#     对本例的红酒数据集不适用，LogisticRegression适用二分类问题
+#     '''
+#     # 红酒数据集
+#     # 数据载入
+#     wine = pd.read_csv('../data/WineQT.csv')
+#     # print(wine.head(10))
+#     # 数据分割
+#     x = wine.drop(['quality', 'Id'], axis=1).values
+#     y = wine['quality'].values
+#     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # print(x_train, x_test, y_train, y_test)
+#     # 模型训练、预测
+#     clf = NB()
+#     clf.fit(x_train, y_train)
+#     train_predict = clf.predict(x_train)
+#     test_predict = clf.predict(x_test)
+#     print(train_predict)
+# 
+#     # 心脏病数据集
+#     # 数据载入
+#     heart = pd.read_csv('../data/heart.csv')
+#     # print(heart.head(10))
+#     # 数据分割
+#     x = heart.drop(['target'], axis=1).values
+#     y = heart['target'].values
+#     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=66)
+#     # print(x_train, x_test, y_train, y_test)
+#     # 模型训练、预测
+#     clf = NB()
+#     clf.fit(x_train, y_train)
+#     train_predict = clf.predict(x_train)
+#     test_predict = clf.predict(x_test)
+#     print(test_predict)
