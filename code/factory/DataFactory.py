@@ -6,8 +6,8 @@ class DataFactory(Factory):
     @staticmethod
     def create_dataset(dataset):
         if dataset == 'iris':
-            return IrisDataset
+            return IrisDataset()
         elif dataset == 'wine':
-            return WineQualityDataset
+            return WineQualityDataset()
         elif dataset == 'heart':
-            return HeartDiseaseDataSet
+            return HeartDiseaseDataSet()
