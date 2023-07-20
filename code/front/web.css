@@ -1,0 +1,53 @@
+/* 设置选择区域的样式 */
+#selection-area {
+  height: 650px;
+  background-color: #f2f2f2;
+}
+.radio-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.radio-container input[type="radio"] {
+    margin-right: 5px;
+}
+
+/* 设置运行区域 */
+#action-area {
+    height:50px;
+    background-color: #ffffff;
+}
+
+/* 设置结果显示区域的样式 */
+#result-area {
+  height: 300px;
+  background-color: #ffffff;
+}
+.evaluationOption {
+    display: inline-block;
+    margin-right: 10px;
+}
+.modelOption {
+    display: inline-block;
+    margin-right: 10px;
+}
+.datasetOption {
+    display: inline-block;
+    margin-right: 10px;
+}
+.splitterOption {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+
+.hidden {
+    display: none;
+}
+
+h1 {
+    font-family: "微软雅黑", sans-serif;
+    text-align: center;
+}
