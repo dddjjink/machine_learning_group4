@@ -1,4 +1,4 @@
-from Splitter import Splitter
+from .Splitter import Splitter
 import random as r
 
 
@@ -21,10 +21,17 @@ class HoldOut(Splitter):
         # 随机选择测试集的索引
         test_indices = r.sample(range(n_samples), n_test)
         # 构建训练集和测试集
-        x_train = [self.data[i] for i in range(n_samples) if i not in test_indices]
-        x_test = [self.data[i] for i in test_indices]
-        y_train = [self.target[i] for i in range(n_samples) if i not in test_indices]
-        y_test = [self.target[i] for i in test_indices]
+        train_index=[]
+        test_index=[]
+        for i in range(n_samples):
+            if i not in test_indices:
+                train_index.append(i)
+        for i in test_indices:
+            test_index.append(i)
+        x_train = self.data[train_index]
+        x_test = self.data[test_index]
+        y_train = self.target[train_index]
+        y_test = self.target[test_index]
         # # 打印结果进行验证
         # print("\n\ntrain data set: \n", len(x_train), "\n", x_train)
         # print("\n\ntest data set: \n", len(x_test), "\n", x_test)
@@ -34,10 +41,10 @@ class HoldOut(Splitter):
         # x_train, x_test, y_train, y_test
 
 
-# # 留出法示例用法
+# 留出法示例用法
 # if __name__ == '__main__':
 #     import pandas as pd
-# 
+#
 #     # 鸢尾花数据集
 #     iris = pd.read_csv('../data/Iris.csv')
 #     # print(iris.head(10))
@@ -46,8 +53,8 @@ class HoldOut(Splitter):
 #     y = iris['Species'].values
 #     data_split = HoldOut(x, y)
 #     x_train, x_test, y_train, y_test = data_split.split()
-#     # print(x_train, x_test, y_train, y_test)
-# 
+#     print(x_train)
+
 #     # 红酒数据集
 #     wine = pd.read_csv('../data/WineQT.csv')
 #     # print(wine.head(10))
