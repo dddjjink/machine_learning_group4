@@ -1,6 +1,6 @@
 import math
 import numpy as np
-from Evaluation import Evaluation
+from .Evaluation import Evaluation
 
 
 # 均方根误差
@@ -9,10 +9,12 @@ class RMSE(Evaluation):
         super().__init__(y_test, y_pred)
 
     def __call__(self):
-        self.loss()
+        return self.loss()
 
     def loss(self):
-        print(math.sqrt(0.5 * np.sum((self.y_pred - self.y_true) ** 2, axis=-1)))
+        rmse = math.sqrt(0.5 * np.sum((self.y_pred - self.y_true) ** 2, axis=-1))
+        print(round(rmse, 2))
+        return round(rmse, 2)
 
 
 # # RMSE示例用法
