@@ -1,5 +1,5 @@
 import numpy as np
-from Evaluation import Evaluation
+from .Evaluation import Evaluation
 
 
 class FM(Evaluation):
@@ -7,7 +7,7 @@ class FM(Evaluation):
         super().__init__(labels_true, labels_pred)
 
     def __call__(self, *args, **kwargs):
-        self.compute_fm_index()
+        return self.compute_fm_index()
 
     def compute_confusion_matrix(self):
         n_samples = len(self.y_true)
@@ -35,7 +35,8 @@ class FM(Evaluation):
 
         fm_index = np.sqrt(precision * recall)
 
-        print(fm_index)
+        print(round(fm_index, 2))
+        return round(fm_index, 2)
 
 
 # # FM示例用法
