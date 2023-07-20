@@ -22,23 +22,39 @@ var websocket = new WebSocket('ws://127.0.0.1:8082')
       splitter:splitter,
       model:model,
       evaluation:evaluation
+
     }
     if (percent) {
   data.percent = percent.value;
     }
     websocket.send(JSON.stringify(data))
   }
-  websocket.onmessage=function(back){
-    var resultDiv = document.getElementById('result-area');
-    resultDiv.textContent = back.data;
-    console.log(back.data)
+     websocket.onmessage=function(back){
+
+      str=back.data
+       if (str=="data_loss"){
+
+        alert('数据未选择全');
+        resetForm()
+
+       }
+       else{
+          const arr = str.split(',');
+        const resultDiv = document.getElementById("result-area");
+        arr.forEach(item => {
+          const p = document.createElement('p');
+          p.textContent = item;
+          resultDiv.appendChild(p);
+       })
+    };
   }
-  websocket.addEventListener('close', function(event) {
-    console.log("WebSocket连接已关闭");
-    alert('WebSocket连接已关闭');
-    websocket.send('close_signal')
-  });
-  window.addEventListener('beforeunload', function(event) {
-    websocket.send('close_signal')
-    websocket.close(); // 关闭 WebSocket 连接
-  });
+     websocket.addEventListener('close', function(event) {
+        console.log("WebSocket连接已关闭");
+        alert('WebSocket连接已关闭');
+        websocket.send('close_signal')
+      });
+    window.addEventListener('beforeunload', function(event) {
+        websocket.send('close_signal')
+        websocket.close(); // 关闭 WebSocket 连接
+      });
+
