@@ -1,5 +1,5 @@
 import numpy as np
-from Model import Model
+from .Model import Model
 
 
 # 梯度增强算法，分类
