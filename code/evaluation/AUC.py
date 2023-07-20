@@ -1,5 +1,5 @@
-from Evaluation import Evaluation
-from ROC import ROC
+from .Evaluation import Evaluation
+from .ROC import ROC
 import numpy as np
 
 
@@ -12,7 +12,7 @@ class AUC(Evaluation):
 
     def __call__(self, *args, **kwargs):
         self.auc()
-        self.evaluate()
+        return self.evaluate()
 
     def auc(self):
         roc_curve = ROC(self.y_true, self.y_pred)
@@ -28,7 +28,8 @@ class AUC(Evaluation):
         sorted_fpr = np.array(self.fpr)[sorted_indices]
         sorted_tpr = np.array(self.tpr)[sorted_indices]
         auc = np.trapz(sorted_tpr, sorted_fpr)
-        print(auc)
+        print(round(auc, 2))
+        return round(auc, 2)
 
 
 # # AUC示例用法
