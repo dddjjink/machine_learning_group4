@@ -11,6 +11,7 @@ class PR(Evaluation):
 
     def __call__(self, *args, **kwargs):
         self.plot()
+        return 'curve'
 
     def precision_recall_curve(self):
         # 计算不同阈值下的精确率和召回率
