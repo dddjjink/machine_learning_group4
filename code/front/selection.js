@@ -73,9 +73,6 @@ function updatedata1() {
 function updatesplitter() {
     var percent = document.querySelector('input[name="percent"]:checked').value;
 
-    var cvOption = document.getElementById("cvOption");
-    cvOption.style.display = (percent === "10%" || percent === "30%") ? "none" : "inline";
-
     var boostrapingOption = document.getElementById("boostrapingOption");
     boostrapingOption.style.display = (percent === "10%" || percent === "30%") ? "none" : "inline";
 
