@@ -22,8 +22,10 @@ from evaluation.RMSE import RMSE
 from evaluation.ROC import ROC
 from evaluation.Rand import Rand
 
+
 class Factory:
     pass
+
 
 class DataFactory(Factory):
     @staticmethod
@@ -35,15 +37,17 @@ class DataFactory(Factory):
         elif dataset == 'heart':
             return HeartDiseaseDataSet()
 
+
 class SplitterFactory(Factory):
     @staticmethod
-    def create_splitter(splitter, X,y):
-        if splitter == 'bootstrap':
-            return BootStrapping(X,y)
+    def create_splitter(splitter, X, y):
+        if splitter == 'bootstraping':
+            return BootStrapping(X, y)
         elif splitter == 'cv':
-            return CV(X,y)
+            return CV(X, y)
         elif splitter == 'holdout':
-            return HoldOut(X,y)
+            return HoldOut(X, y)
+
 
 class ModelFactory(Factory):
     @staticmethod
@@ -66,6 +70,7 @@ class ModelFactory(Factory):
             return NB()
         elif model == 'Random Forest':
             return RandomForest()
+
 
 class EvaluationFactory:
     @staticmethod
