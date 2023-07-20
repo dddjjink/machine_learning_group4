@@ -6,6 +6,7 @@
         <link rel="stylesheet" type="text/css" href="web.css">
         <script type="text/javascript" src="client.js"></script>
         <script type="text/javascript" src="selection.js"></script>
+
     </head>
     <body>
         <h1><p align="center">机器学习模型评估</p></h1>
@@ -28,9 +29,6 @@
                 <div class="radio-container">
                     <div id="holdoutOption" class="splitterOption">
                         <input type="radio" name="splitter" value="houldout" onchange="updatepercent()"> set-aside method
-                    </div>
-                    <div id="cvOption" class="splitterOption">
-                        <input type="radio" name="splitter" value="cv" onchange="updatepercent()"> cross-validation method
                     </div>
                     <div id="boostrapingOption" class="splitterOption">
                         <input type="radio" name="splitter" value="bootstraping" onchange="updatepercent()"> bootstraping method
@@ -120,10 +118,12 @@
                 </div>
             </div>
 
-            <div id="result-area">
-                <!-- 在这里显示运行结果 -->
+            <div id="action-title">
                 <h2>运行结果</h2>
-                <p>这里显示你的运行结果。</p>
+
             </div>
+
+            <div id="result-area"></div>
+
     </body>
     </html>
