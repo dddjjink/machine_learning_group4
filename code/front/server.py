@@ -86,4 +86,4 @@ def run():
     webbrowser.open(path)
     # 运行事件循环
     asyncio.get_event_loop().run_forever()
-run()
+
