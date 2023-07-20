@@ -1,4 +1,4 @@
-from Splitter import Splitter
+from .Splitter import Splitter
 import random as r
 
 
