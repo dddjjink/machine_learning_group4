@@ -12,6 +12,7 @@ class ROC(Evaluation):
 
     def __call__(self, *args, **kwargs):
         self.plot()
+        return 'curve'
 
     def roc_curve(self):
         true_positives = 0
