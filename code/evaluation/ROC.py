@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from Evaluation import Evaluation
+from .Evaluation import Evaluation
 
 
 # ROC曲线，可视化
