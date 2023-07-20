@@ -1,4 +1,4 @@
-from Evaluation import Evaluation
+from .Evaluation import Evaluation
 
 
 # 距离公式
@@ -8,7 +8,7 @@ class Distance(Evaluation):
         self.p = p
 
     def __call__(self):
-        self.minkowski_distance()
+        return self.minkowski_distance()
 
     # 闵可夫斯基距离
     def minkowski_distance(self):
@@ -18,9 +18,11 @@ class Distance(Evaluation):
             sum += abs(self.y_true[i] - self.y_pred[i]) ** self.p
             i += 1
         if self.p == 1:
-            print(sum)
+            print(round(sum, 2))
+            return round(sum, 2)
         elif self.p == 2:
-            print(sum ** 0.5)
+            print(round(sum**0.5, 2))
+            return round(sum**0.5, 2)
 
 
 # # 闵可夫斯基距离示例用法
