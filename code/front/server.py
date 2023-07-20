@@ -1,7 +1,9 @@
 import asyncio
+import os
+import webbrowser
 import websockets
 import json
-from factory.Factory import DataFactory, EvaluationFactory, ModelFactory, SplitterFactory
+from factory.Factory import *
 
 
 # path='http://127.0.0.1:8080'
@@ -12,6 +14,12 @@ async def handle_message(websocket, path):
     async for message in websocket:
         try:
             while True:
+                if message == 'close_signal':
+                    print("网页已关闭，连接已断开，进程终止")
+                    # 收到关闭信号，断开连接并关闭程序
+                    await websocket.close()
+                    asyncio.get_event_loop().stop()  # 停止事件循环
+                    return
                 #text = ''
                 #print(f"接收到的消息：{message}")
                 #text += message
@@ -63,7 +71,12 @@ async def handle_message(websocket, path):
             print("客户端已断开连接")
 
 
-start_server = websockets.serve(handle_message, "localhost", 8081)
-
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+def run():
+    start_server = websockets.serve(handle_message, "localhost", 8082)
+    # 启动服务器
+    asyncio.get_event_loop().run_until_complete(start_server)
+    # 打开网页
+    path = os.path.join(os.path.dirname(__file__), 'web.html')
+    webbrowser.open(path)
+    # 运行事件循环
+    asyncio.get_event_loop().run_forever()
