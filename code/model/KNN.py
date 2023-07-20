@@ -1,5 +1,5 @@
-from Model import Model
-from PCA import PCA
+from .Model import Model
+from .PCA import PCA
 import operator
 import math
 
