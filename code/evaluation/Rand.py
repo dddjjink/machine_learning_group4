@@ -1,5 +1,5 @@
 import numpy as np
-from Evaluation import Evaluation
+from .Evaluation import Evaluation
 
 
 class Rand(Evaluation):
@@ -7,7 +7,7 @@ class Rand(Evaluation):
         super().__init__(labels_true, labels_pred)
 
     def __call__(self, *args, **kwargs):
-        self.compute_rand_index()
+        return self.compute_rand_index()
 
     def compute_confusion_matrix(self):
         n_samples = len(self.y_true)
@@ -31,7 +31,8 @@ class Rand(Evaluation):
         fn = cm[0, 1]
         tn = cm[1, 1]
         rand_index = (tp + tn) / (tp + fp + fn + tn)
-        print(rand_index)
+        print(round(rand_index, 2))
+        return round(rand_index, 2)
 
 
 # # Rand示例用法
