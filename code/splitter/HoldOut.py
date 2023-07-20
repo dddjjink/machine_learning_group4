@@ -4,9 +4,9 @@ import random as r
 
 # 留出法
 class HoldOut(Splitter):
-    def __init__(self, x, y, test_size=0.2):
+    def __init__(self, x, y, test_size="0.2"):
         super().__init__(x, y)
-        self.split_size = test_size
+        self.split_size = eval(test_size)
         self.random_state = None
 
     def __call__(self, *args, **kwargs):
