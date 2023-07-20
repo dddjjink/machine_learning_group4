@@ -28,3 +28,17 @@
 - Rand
 - RMSE
 - ROC
+### 各问题类型可用的评估方法
+#### 分类
+- Accuracy
+- F1
+- PR
+- AUC
+- ROC
+#### 回归
+- MSE
+- RMSE
+#### 聚类
+- FM
+- Rand
+- Distance
