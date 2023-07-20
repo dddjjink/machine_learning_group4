@@ -27,7 +27,7 @@ class IrisDataset(Dataset):
 
     def data_target(self):
         super().load()
-        x = self.dataset[['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm']]
+        x = self.dataset.drop(['Species', 'Id'], axis=1).values
         y = self.dataset['Species'].values
         super().data_target_split(x, y)
 
