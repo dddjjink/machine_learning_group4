@@ -1,4 +1,4 @@
-from Evaluation import Evaluation
+from .Evaluation import Evaluation
 
 
 # F1度量
@@ -11,7 +11,7 @@ class F1(Evaluation):
 
     def __call__(self, *args, **kwargs):
         self.f1_score()
-        self.evaluate()
+        return self.evaluate()
 
     def f1_score(self):
         for true, pred in zip(self.y_true, self.y_pred):
@@ -28,8 +28,8 @@ class F1(Evaluation):
         precision = self.true_positives / (self.true_positives + self.false_positives)
         recall = self.true_positives / (self.true_positives + self.false_negatives)
         f1_score = 2 * (precision * recall) / (precision + recall)
-        print(f1_score)
-
+        print(round(f1_score, 2))
+        return round(f1_score, 2)
 
 # # F1度量示例用法
 # if __name__ == '__main__':
