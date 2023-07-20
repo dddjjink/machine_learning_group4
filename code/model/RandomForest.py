@@ -1,5 +1,5 @@
 import numpy as np
-from DecisionTree import DecisionTree
+from .DecisionTree import DecisionTree
 
 
 class RandomForest(DecisionTree):
