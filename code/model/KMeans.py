@@ -1,6 +1,6 @@
 import numpy as np
-from Model import Model
-from PCA import PCA
+from .Model import Model
+from .PCA import PCA
 
 
 # K均值聚类算法，聚类
