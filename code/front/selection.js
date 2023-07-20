@@ -48,7 +48,7 @@ function updatepercent() {
     var splitter = document.querySelector('input[name="splitter"]:checked').value;
 
     var percentOption = document.getElementById("percentOption");
-    percentOption.style.display = (splitter === "houldout") ? "block" : "none";
+    percentOption.style.display = (splitter === "holdout") ? "block" : "none";
 }
 function updatedata() {
     var model = document.querySelector('input[name="model"]:checked').value;
