@@ -41,7 +41,7 @@ class HoldOut(Splitter):
         # x_train, x_test, y_train, y_test
 
 
-# 留出法示例用法
+# # 留出法示例用法
 # if __name__ == '__main__':
 #     import pandas as pd
 #
@@ -54,7 +54,7 @@ class HoldOut(Splitter):
 #     data_split = HoldOut(x, y)
 #     x_train, x_test, y_train, y_test = data_split.split()
 #     print(x_train)
-
+# 
 #     # 红酒数据集
 #     wine = pd.read_csv('../data/WineQT.csv')
 #     # print(wine.head(10))
