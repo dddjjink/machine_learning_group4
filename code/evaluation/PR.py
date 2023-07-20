@@ -1,6 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from Evaluation import Evaluation
+from .Evaluation import Evaluation
 
 
 # P-R曲线，可视化
