@@ -39,11 +39,11 @@ class DataFactory(Factory):
 
 class SplitterFactory(Factory):
     @staticmethod
-    def create_splitter(splitter, X, y):
+    def create_splitter(splitter, X, y, percent):
         if splitter == 'bootstraping':
             return BootStrapping(X, y)
         elif splitter == 'holdout':
-            return HoldOut(X, y)
+            return HoldOut(X, y, percent)
 
 
 class ModelFactory(Factory):
