@@ -31,19 +31,13 @@ class EvaluationFactory:
 
 
 if __name__ == '__main__':
-    # data_name = 'iris'
-    data_name = 'house'
+    dataset_factory = DataFactory()
+    _dataset_ = dataset_factory.create_dataset("iris")
+    _dataset_.data_target()
+    # print(_dataset_.data)
+    X = _dataset_.data
+    y = _dataset_.target
+    splitter_factory = SplitterFactory()
+    _splitter_ = splitter_factory.create_splitter("cv", X, y)
 
-    data_factory = DataFatory()
-
-    data_factory.register('iris', IrisDataset)
-    data_factory.register('house', HouseDataset)
-
-    result = data_factory.inspect()
-
-    data = data_factory.getData(data_name)
-    data.load()
-    splitter = Splitter()
-    training_set, test_set, validation_set = splitter.split(data)
-
-    ...
+    X_train, X_test, y_train, y_test = _splitter_.split()
