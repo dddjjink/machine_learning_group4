@@ -31,7 +31,7 @@ async def handle_message(websocket, path):
                 evaluation = message.get("evaluation")
                 percent=message.get("percent")
 
-                if dataset==None or splitter==None or model==None or evaluation==None or(splitter=="houldout" and percent==None):
+                if dataset==None or splitter==None or model==None or evaluation==None or(splitter=="holdout" and percent==None):
                      await websocket.send("data_loss")
 
                 dataset_factory = DataFactory()
