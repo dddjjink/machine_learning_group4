@@ -1,6 +1,5 @@
 from data.Dataset import IrisDataset, WineQualityDataset, HeartDiseaseDataSet
 from splitter.BootStrapping import BootStrapping
-from splitter.CV import CV
 from splitter.HoldOut import HoldOut
 from model.DecisionTree import DecisionTree
 from model.GradientBoosting import GBDT
