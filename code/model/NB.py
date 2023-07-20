@@ -1,5 +1,5 @@
 import numpy as np
-from Model import Model
+from .Model import Model
 
 
 # 朴素贝叶斯分类器
