@@ -1,3 +1,4 @@
+// 客户端
 var websocket = new WebSocket('ws://127.0.0.1:8080')
   console.log(websocket.readyState)
   //readyState
