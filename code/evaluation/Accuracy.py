@@ -1,4 +1,4 @@
-from Evaluation import Evaluation
+from .Evaluation import Evaluation
 
 
 # 准确率
@@ -12,7 +12,7 @@ class Accuracy(Evaluation):
 
     def __call__(self, *args, **kwargs):
         self.accuracy_cal()
-        self.evaluate()
+        return self.evaluate()
 
     def accuracy_cal(self):
         for true, pred in zip(self.y_true, self.y_pred):
@@ -30,7 +30,8 @@ class Accuracy(Evaluation):
     def evaluate(self):
         total = self.true_positives + self.true_negatives + self.false_positives + self.false_negatives
         accuracy = (self.true_positives + self.true_negatives) / total
-        print(accuracy)
+        print(round(accuracy, 2))
+        return round(accuracy, 2)
 
 
 # # 准确率示例用法
