@@ -43,8 +43,6 @@ class SplitterFactory(Factory):
     def create_splitter(splitter, X, y):
         if splitter == 'bootstraping':
             return BootStrapping(X, y)
-        elif splitter == 'cv':
-            return CV(X, y)
         elif splitter == 'holdout':
             return HoldOut(X, y)
 
