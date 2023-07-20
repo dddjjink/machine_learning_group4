@@ -1,4 +1,4 @@
-from Evaluation import Evaluation
+from .Evaluation import Evaluation
 import numpy as np
 
 
@@ -8,10 +8,12 @@ class MSE(Evaluation):
         super().__init__(y_test, y_pred)
 
     def __call__(self):
-        self.loss()
+        return self.loss()
 
     def loss(self):
-        print(0.5 * np.sum((self.y_pred - self.y_true) ** 2, axis=-1))
+        mse = 0.5 * np.sum((self.y_pred - self.y_true) ** 2, axis=-1)
+        print(round(mse, 2))
+        return round(mse, 2)
 
 
 # # MSE示例用法
