@@ -42,10 +42,10 @@ class LogisticRegression(Model):
         return 1 / (1 + np.exp(-z))
 
     def predict_proba(self, X):
-    linear_model = np.dot(X, self.weights) + self.bias
-    y_predicted = self.sigmoid(linear_model)
-    probabilities = np.column_stack((1 - y_predicted, y_predicted))
-    return probabilities
+        linear_model = np.dot(X, self.weights) + self.bias
+        y_predicted = self.sigmoid(linear_model)
+        probabilities = np.column_stack((1 - y_predicted, y_predicted))
+        return probabilities
 
 
 # # LogisticRegression示例用法
