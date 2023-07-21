@@ -88,22 +88,22 @@ function updateevaluationbymodel() {
 
     var prOption = document.getElementById("prOption");
     prOption.style.display = (buttonStates.prOption && (model === "GradientBoosting" || model === "KNN" ||
-    model === "Random Forest") || model === "LogisticRegression") ? "inline" : "none";
+    model === "LogisticRegression")) ? "inline" : "none";
 
     var randOption = document.getElementById("randOption");
     randOption.style.display = (buttonStates.randOption && model === "K_means") ? "inline" : "none";
 
     var aucOption = document.getElementById("aucOption");
     aucOption.style.display = (buttonStates.aucOption && (model === "GradientBoosting" || model === "KNN" ||
-    model === "Random Forest") || model === "LogisticRegression") ? "inline" : "none";
+    model === "Random Forest" || model === "LogisticRegression")) ? "inline" : "none";
 
     var rmseOption = document.getElementById("rmseOption");
     rmseOption.style.display = (buttonStates.rmseOption && (model === "Decision Tree" || model === "KNN" ||
-    model === "LR" || model === "Random Forest") || model === "LogisticRegression" || model === "SVM") ? "inline" : "none";
+    model === "LR" || model === "Random Forest" || model === "LogisticRegression" || model === "SVM")) ? "inline" : "none";
 
     var rocOption = document.getElementById("rocOption");
     rocOption.style.display = (buttonStates.rocOption && (model === "GradientBoosting" || model === "KNN" ||
-    model === "Random Forest") || model === "LogisticRegression" || model === "SVM") ? "inline" : "none";
+    model === "Random Forest" || model === "LogisticRegression" || model === "SVM")) ? "inline" : "none";
 
 
 }
