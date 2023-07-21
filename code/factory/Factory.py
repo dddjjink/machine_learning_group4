@@ -71,7 +71,7 @@ class ModelFactory(Factory):
 
 class EvaluationFactory:
     @staticmethod
-    def create_evaluation(evaluation, y_true, y_pred, x_test):
+    def create_evaluation(evaluation, y_true, y_pred, x_test, model):
         if evaluation == 'auc':
             return AUC(y_true, y_pred)
         elif evaluation == 'accuracy':
@@ -85,7 +85,7 @@ class EvaluationFactory:
         elif evaluation == 'mse':
             return MSE(y_true, y_pred)
         elif evaluation == 'pr':
-            return PR(y_true, y_pred, x_test)
+            return PR(y_true, y_pred, x_test, model)
         elif evaluation == 'rmse':
             return RMSE(y_true, y_pred)
         elif evaluation == 'roc':
