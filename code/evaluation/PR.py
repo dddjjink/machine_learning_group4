@@ -1,6 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from .Evaluation import Evaluation
+from model.LogisticRegression import LogisticRegression
 
 
 # P-R曲线，可视化
