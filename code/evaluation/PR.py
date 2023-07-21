@@ -6,10 +6,10 @@ from model.LogisticRegression import LogisticRegression
 
 # P-R曲线，可视化
 class PR(Evaluation):
-    def __init__(self, y_true, y_pred, x_test):
+    def __init__(self, y_true, y_pred, x_test, model):
         self.y_true = y_true
         self.y_pred = y_pred
-        self.y_score = LogisticRegression.predict_proba(x_test)[:, 1]
+        self.y_score = LogisticRegression.predict_proba(model, x_test)[:, 1]
 
     def __call__(self, *args, **kwargs):
         self.plot()
