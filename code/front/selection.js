@@ -64,7 +64,6 @@ function updatesplitter() {
 }
 
 
-
 function updateevaluationbymodel() {
     var model = document.querySelector('input[name="model"]:checked').value;
 
@@ -87,8 +86,7 @@ function updateevaluationbymodel() {
     model === "LR" || model === "Random Forest" || model === "LogisticRegression" || model === "SVM")) ? "inline" : "none";
 
     var prOption = document.getElementById("prOption");
-    prOption.style.display = (buttonStates.prOption && (model === "GradientBoosting" || model === "KNN" ||
-    model === "LogisticRegression")) ? "inline" : "none";
+    prOption.style.display = (buttonStates.prOption && model === "LogisticRegression") ? "inline" : "none";
 
     var randOption = document.getElementById("randOption");
     randOption.style.display = (buttonStates.randOption && model === "K_means") ? "inline" : "none";
