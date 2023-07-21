@@ -55,7 +55,7 @@ async def handle_message(websocket, path):
                 # print(test_predict)
                 # print(y_test)
                 evaluation_factory = EvaluationFactory()
-                _evaluation_ = evaluation_factory.create_evaluation(evaluation, y_test, test_predict)
+                _evaluation_ = evaluation_factory.create_evaluation(evaluation, y_test, test_predict, X_test)
                 result = _evaluation_()
                 result_string = str(result)
                 if result == "curve":
