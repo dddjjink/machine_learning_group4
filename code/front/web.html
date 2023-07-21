@@ -46,65 +46,66 @@
                 <h2><p align="center">选择机器学习模型</p></h2>
                     <div class="radio-container">
                         <div id="KNNOption" class="modelOption">
-                            <input type="radio" name="model" value="KNN" onchange="updatedata()"> KNN
+                            <input type="radio" name="model" value="KNN" onchange="updateevaluationbymodel()"> KNN
                         </div>
                         <div id="K_meansOption" class="modelOption">
-                            <input type="radio" name="model" value="K_means" onchange="updatedata()"> K_means
+                            <input type="radio" name="model" value="K_means" onchange="updateevaluationbymodel()"> K_means
                         </div>
                         <div id="SVMOption" class="modelOption">
-                            <input type="radio" name="model" value="SVM" onchange="updatedata()"> SVM
+                            <input type="radio" name="model" value="SVM" onchange="updateevaluationbymodel()"> SVM
                        </div>
                         <div id="GradientBoostingOption" class="modelOption">
-                            <input type="radio" name="model" value="GradientBoosting" onchange="updatedata()"> GradientBoosting
+                            <input type="radio" name="model" value="GradientBoosting" onchange="updateevaluationbymodel()"> GradientBoosting
                         </div>
                         <div id="LROption" class="modelOption">
-                            <input type="radio" name="model" value="LR" onchange="updatedata()"> linear regression
+                            <input type="radio" name="model" value="LR" onchange="updateevaluationbymodel()"> linear regression
                         </div>
                         <div id="LogisticRegressionOption" class="modelOption">
-                            <input type="radio" name="model" value="LogisticRegression" onchange="updatedata()"> logistic regression
+                            <input type="radio" name="model" value="LogisticRegression" onchange="updateevaluationbymodel()"> logistic regression
                         </div>
                         <div id="NBOption" class="modelOption">
-                            <input type="radio" name="model" value="NB" onchange="updatedata()"> navie bayes
+                            <input type="radio" name="model" value="NB" onchange="updateevaluationbymodel()"> navie bayes
                         </div>
                         <div id="DecisionTreeOption" class="modelOption">
-                            <input type="radio" name="model" value="Decision Tree" onchange="updatedata()"> decision tree
+                            <input type="radio" name="model" value="Decision Tree" onchange="updateevaluationbymodel()"> decision tree
                         </div>
                         <div id="RandomForestOption" class="modelOption">
-                            <input type="radio" name="model" value="Random Forest" onchange="updatedata()"> random forest
+                            <input type="radio" name="model" value="Random Forest" onchange="updateevaluationbymodel()"> random forest
                         </div>
                     </div>
+                <br>
                 <br>
                 <h2><p align="center">选择模型评估指标</p></h2>
                         <div class="radio-container">
                             <div id="accuracyOption" class="evaluationOption">
-                                <input type="radio" name="evaluation" value="accuracy" onchange="updatedata1()"> Accuracy
+                                <input type="radio" name="evaluation" value="accuracy"> Accuracy
                             </div>
                             <div id="distanceOption" class="evaluationOption">
-                                <input type="radio" name="evaluation" value="distance" onchange="updatedata1()"> Distance
+                                <input type="radio" name="evaluation" value="distance"> Distance
                             </div>
                             <div id="aucOption" class="evaluationOption">
-                                <input type="radio" name="evaluation" value="auc" onchange="updatedata1()"> AUC
+                                <input type="radio" name="evaluation" value="auc"> AUC
                             </div>
                             <div id="f1Option" class="evaluationOption">
-                                <input type="radio" name="evaluation" value="f1" onchange="updatedata1()"> F1
+                                <input type="radio" name="evaluation" value="f1"> F1
                             </div>
                             <div id="fmOption" class="evaluationOption">
-                                <input type="radio" name="evaluation" value="fm" onchange="updatedata1()"> FM
+                                <input type="radio" name="evaluation" value="fm"> FM
                             </div>
                             <div id="mseOption" class="evaluationOption">
-                                <input type="radio" name="evaluation" value="mse" onchange="updatedata1()"> MSE
+                                <input type="radio" name="evaluation" value="mse"> MSE
                             </div>
                             <div id="prOption" class="evaluationOption">
-                                <input type="radio" name="evaluation" value="pr" onchange="updatedata1()"> PR
+                                <input type="radio" name="evaluation" value="pr"> PR
                             </div>
                             <div id="randOption" class="evaluationOption">
-                                <input type="radio" name="evaluation" value="rand" onchange="updatedata1()"> Rand
+                                <input type="radio" name="evaluation" value="rand"> Rand
                             </div>
                             <div id="rmseOption" class="evaluationOption">
-                                <input type="radio" name="evaluation" value="rmse" onchange="updatedata1()"> RMSE
+                                <input type="radio" name="evaluation" value="rmse"> RMSE
                             </div>
                             <div id="rocOption" class="evaluationOption">
-                                <input type="radio" name="evaluation" value="roc" onchange="updatedata1()"> ROC
+                                <input type="radio" name="evaluation" value="roc"> ROC
                             </div>
                         </div>
                 <br><br>
