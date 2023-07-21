@@ -2,7 +2,6 @@ import asyncio
 import os
 import webbrowser
 import websockets
-import json
 from factory.Factory import *
 
 # path='http://127.0.0.1:8080'
@@ -24,7 +23,7 @@ async def handle_message(websocket, path):
                 #print(f"接收到的消息：{message}")
                 #text += message
                 #await websocket.send(message)
-                message = eval(message)  # 加这一行，把str类型的message转换为dict类型
+                message = eval(message)
                 dataset = message.get("dataset")
                 splitter = message.get("splitter")
                 model = message.get("model")
@@ -48,18 +47,22 @@ async def handle_message(websocket, path):
                 # print(X_train)
                 model_factory = ModelFactory()
                 _model_ = model_factory.create_model(model)
-                _model_.fit(X_train)
+                if model == "KNN" or model == "K_means":
+                    _model_.fit(X_train)
+                else:
+                    _model_.fit(X_train, y_train)
                 test_predict = _model_.predict(X_test)
                 # print(test_predict)
                 # print(y_test)
                 evaluation_factory = EvaluationFactory()
                 _evaluation_ = evaluation_factory.create_evaluation(evaluation, y_test, test_predict)
                 result = _evaluation_()
-                if result=="curve":
-                    await websocket.send(message)
+                result_string = str(result)
+                if result == "curve":
+                    message["result"] = result_string
+                    await websocket.send(str(message))
                 else:
-                    result_string=str(result)
-                    message["result"]=result_string
+                    message["result"] = result_string
                     print(f"接收到的消息：{message}")
                     await websocket.send(str(message))
                 #message['result'] = result
