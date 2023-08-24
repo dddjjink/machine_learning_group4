@@ -51,7 +51,26 @@
 ### （一）整体架构
 
 ### （二）后端架构
-后端的功能模块整体分为
+> 后端分为数据集，数据分割，模型和评估四个功能模块，每个模块均设置父类，分别为Dataset类，Splitter类，Model类和Evaluation类。  
+#### 1. 数据集模块
+Dataset类包含__init__函数，load函数和data_target_split函数：
+- __init__函数，即初始化函数。该函数对路径、数据集、特征和标签进行初始化。
+- load函数，即数据载入函数。该函数根据路径对数据集进行赋值。
+- data_target_split函数，即数据集分割函数。该函数对特征和标签进行赋值。
+
+Dataset类有三个子类，分别为IrisDataset类，WineQualityDataset类和HeartDiseaseDataSet类。每个子类均包含__init__函数和data_target函数且每个子类函数的内容架构相同：
+- __init__函数，即初始化函数。该函数对路径进行初始化。
+- data_target函数，即数据集分割函数。该函数首先调用父类的load函数进行数据集的加载，然后根据列名划分特征和标签。
+#### 2. 数据分割模块
+Splitter类包含__init__函数，即初始化函数，该函数对特征和标签进行初始化。
+
+Splitter类有两个子类，分别为HoldOut类和BootStrapping类。每个子类均包含__init__函数，split函数：
+- HoldOut类
+    - __init__函数，即初始化函数。该函数对特征、标签、数据分割比例和**随机状态**进行初始化。
+    - split函数，即数据分割函数。该函数
+- BootStrapping类
+    - __init__函数，即初始化函数。该函数对特征和标签进行初始化。
+    - split函数，即数据分割函数。该函数
 ### （三）前端架构
 
 ### （四）前后端连接架构
