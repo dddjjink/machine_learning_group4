@@ -29,6 +29,7 @@
 5. 优化改进：张晨宇、柴菲儿、吴倩、李青琪
 ## 二、机器学习总体流程介绍
 > 数据集载⼊、分割、模型训练、测试、评估等
+
 ## 三、算法原理介绍
 ### 1. 线性回归算法
 ### 2. 逻辑回归算法
@@ -42,7 +43,9 @@
 ### 10. 梯度增强算法
 
 ## 四、算法性能比较与分析
+
 ## 五、架构设计思路
+
 ## 六、前后端代码仓库链接
 https://github.com/stupid-vegetable-bird/machine_learning_group4.git
 ## 七、代码运行方式说明
@@ -50,13 +53,13 @@ https://github.com/stupid-vegetable-bird/machine_learning_group4.git
 ![image](https://github.com/stupid-vegetable-bird/machine_learning_group4/assets/97822083/4fd61545-fa8e-47f3-922b-6c8af0d69ee0)
 
 ## 八、代码运行截图
-![image](https://github.com/stupid-vegetable-bird/machine_learning_group4/assets/97822083/6a99b913-e810-4fcb-803c-154172db77cd)
+![image](https://github.com/stupid-vegetable-bird/machine_learning_group4/assets/97822083/6a99b913-e810-4fcb-803c-154172db77cd)  
 运行后的初始界面  
 
-![image](https://github.com/stupid-vegetable-bird/machine_learning_group4/assets/97822083/38abdd5f-d904-49b6-bfaf-d9636eef7336)
+![image](https://github.com/stupid-vegetable-bird/machine_learning_group4/assets/97822083/38abdd5f-d904-49b6-bfaf-d9636eef7336)  
 数据集、分割器。分割比例、模型、评估指标的选择及文字形式的运行结果  
 
-![image](https://github.com/stupid-vegetable-bird/machine_learning_group4/assets/97822083/faf3f6a4-e90c-43f8-967c-412b173e39cd)
+![image](https://github.com/stupid-vegetable-bird/machine_learning_group4/assets/97822083/faf3f6a4-e90c-43f8-967c-412b173e39cd)  
 图片形式的运行结果显示
 ## 九、每位组员的收获与感悟
 ### 1. 李青琪
