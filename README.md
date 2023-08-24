@@ -59,4 +59,8 @@ https://github.com/stupid-vegetable-bird/machine_learning_group4.git
 ![image](https://github.com/stupid-vegetable-bird/machine_learning_group4/assets/97822083/faf3f6a4-e90c-43f8-967c-412b173e39cd)
 图片形式的运行结果显示
 ## 九、每位组员的收获与感悟
+### 1. 李青琪
+### 2. 柴菲儿
+### 3. 张晨宇
+### 4. 吴  倩
 ## 十、其他重要的内容
