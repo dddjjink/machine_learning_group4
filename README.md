@@ -45,6 +45,7 @@
 ## 四、算法性能比较与分析
 
 ## 五、架构设计思路
+> 描述了系统各个组成部分之间的关系、功能模块的划分以及它们之间的通信方式和交互方式
 
 ## 六、前后端代码仓库链接
 https://github.com/stupid-vegetable-bird/machine_learning_group4.git
