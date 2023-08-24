@@ -1,4 +1,5 @@
 # machine_learning_group4
+
 ## 一、组员与分工
 ### （一）小组成员
 - 李青琪 2021212023018
@@ -27,6 +28,7 @@
 3. 前端：张晨宇、柴菲儿
 4. 前后端通信：吴倩
 5. 优化改进：张晨宇、柴菲儿、吴倩、李青琪
+
 ## 二、机器学习总体流程介绍
 > 数据集载⼊、分割、模型训练、测试、评估等
 
@@ -46,9 +48,17 @@
 
 ## 五、架构设计思路
 > 描述了系统各个组成部分之间的关系、功能模块的划分以及它们之间的通信方式和交互方式
+### （一）整体架构
+
+### （二）后端架构
+后端的功能模块整体分为
+### （三）前端架构
+
+### （四）前后端连接架构
 
 ## 六、前后端代码仓库链接
 https://github.com/stupid-vegetable-bird/machine_learning_group4.git
+
 ## 七、代码运行方式说明
 运行code文件夹中的main.py文件，即下图中红框标记的文件  
 ![image](https://github.com/stupid-vegetable-bird/machine_learning_group4/assets/97822083/4fd61545-fa8e-47f3-922b-6c8af0d69ee0)
@@ -62,9 +72,11 @@ https://github.com/stupid-vegetable-bird/machine_learning_group4.git
 
 ![image](https://github.com/stupid-vegetable-bird/machine_learning_group4/assets/97822083/faf3f6a4-e90c-43f8-967c-412b173e39cd)  
 图片形式的运行结果显示
+
 ## 九、每位组员的收获与感悟
 ### 1. 李青琪
 ### 2. 柴菲儿
 ### 3. 张晨宇
 ### 4. 吴  倩
+
 ## 十、其他重要的内容
