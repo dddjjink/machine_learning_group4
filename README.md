@@ -66,11 +66,82 @@ Splitter类包含__init__函数，即初始化函数，该函数对特征和标�
 
 Splitter类有两个子类，分别为HoldOut类和BootStrapping类。每个子类均包含__init__函数，split函数：
 - HoldOut类
-    - __init__函数，即初始化函数。该函数对特征、标签、数据分割比例和**随机状态**进行初始化。
-    - split函数，即数据分割函数。该函数
+    - __init__函数，即初始化函数。该函数对特征、标签、数据分割比例和随机状态进行初始化。
+    - split函数，即数据分割函数。该函数首先根据随机状态设置随机种子，再获取样本数量和测试集大小，然后随机选择测试集的索引，最后依据索引构建训练集和测试集。
 - BootStrapping类
     - __init__函数，即初始化函数。该函数对特征和标签进行初始化。
-    - split函数，即数据分割函数。该函数
+    - split函数，即数据分割函数。该函数首先进行m次放回抽样，得到训练集的序号，然后将剩下的序号记为测试集序号，最后产生训练/测试集。
+#### 3. 模型模块
+Model类有八个子类，分别为DecisionTree类，SVM类，GBDT类，NB类，LinearRegression类，LogisticRegression类，KNN类和KMeans类。除了这八个子类，该模块还有一个继承自DecisionTree类的RandomForest类和一个PCA类。  
+- DecisionTree类，SVM类，GBDT类，NB类，LinearRegression类，LogisticRegression类，KNN类，KMeans类
+    - 主要函数为fit函数和predict函数，其他函数根据这两个函数所需来写。
+    - fit函数，即训练函数。该函数负责模型的训练。
+    - predict函数，即预测函数。该函数负责模型的预测。
+- RandomForest类
+    - 继承自DecisionTree类，主要函数为fit函数和predict函数，同时会用到DecisionTree类来构建所需的决策树。
+- PCA类
+    - LinearRegression类，LogisticRegression类，KNN类和KMeans类中调用了该类的transform函数。
+    - 当数据的维度大于4时，调用该函数对数据进行降维处理。
+- 本项目中的模型与适用的问题以及适用数据集的关系【表述为模型（适用的问题）：适用的数据集】
+    - DecisionTree（回归问题）：WineQualityDataset，HeartDiseaseDataSet
+    - SVM（二分类问题）：HeartDiseaseDataSet
+    - GBDT（分类问题）：WineQualityDataset，HeartDiseaseDataSet
+    - NB（分类问题）：IrisDataset，WineQualityDataset，HeartDiseaseDataSet
+    - LinearRegression（回归问题）：WineQualityDataset，HeartDiseaseDataSet
+    - LogisticRegression（二分类问题）：HeartDiseaseDataSet
+    - KNN（分类问题、回归问题）：IrisDataset，WineQualityDataset，HeartDiseaseDataSet
+    - KMeans（聚类问题）：IrisDataset，WineQualityDataset，HeartDiseaseDataSet
+    - RandomForest（分类问题、回归问题）：WineQualityDataset，HeartDiseaseDataSet
+#### 4. 评估模块
+Evaluation类包含__init__函数，即初始化函数，该函数依据传入的参数对真实值和预测值进行初始化。  
+
+Evaluation类有十个子类，分别为Accuracy类，F1类，PR类，AUC类，ROC类，FM类，Rand类，MSE类，RMSE类和Distance类。每个子类都使用__call__方法，在评估时，只需要将真实值和预测值传给实例对象，然后调用该实例对象。每个子类都会返回信息到前端，详细内容见前端和前后端通信模块。
+- Accuracy类，F1类，PR类，AUC类，ROC类，FM类，Rand类，MSE类，RMSE类和Distance类
+    - Accuracy类
+        - 该类的__call__中首先调用accuracy_cal函数，然后调用并返回evaluate函数。
+        - accuracy_cal函数统计真正例、假正例、真反例、假反例的数目。
+        - evaluate函数计算并返回准确率。
+    - F1类
+        - 该类的__call__中首先调用f1_score函数，然后调用并返回evaluate函数。
+        - f1_score函数统计真正例、真反例、假反例的数目。
+        - evaluate函数计算并返回F1度量。
+    - PR类
+        - 该类的__call__中首先调用plot函数，然后返回'curve'字符串。
+        - plot函数需要调用precision_recall_curve函数来获取精确率和召回率，并根据精确率和召回率来作出曲线。
+    - AUC类
+        - 该类调用了ROC类
+        - 该类的__call__中首先调用auc函数，然后调用并返回evaluate函数。
+        - auc函数用到DecisionTree类来构建所需的ROC实例对象，然后调用roc_curve函数来获取真正例率和假正例率。
+        - evaluate函数首先对假正例率列表进行排序，然后根据排序索引对真正例率列表进行排序，最后计算并返回排序后的真正例率和假正例率形成的曲线下的面积。
+    - ROC类
+        - 该类的__call__中首先调用plot函数，然后返回'curve'字符串。
+        - plot函数需要调用roc_curve函数来获取真正例率和假正例率，并根据真正例率和假正例率来作出曲线。
+    - FM类
+        - 该类的__call__调用并返回compute_fm_index函数。
+        - compute_fm_index函数需要调用compute_confusion_matrix函数来得到混淆矩阵，再根据根据混淆矩阵的真正例、假正例、真反例、假反例计算精确率和召回率，最后根据精确率和召回率计算并返回FM指数。
+    - Rand类
+        - 该类的__call__调用并返回compute_fm_index函数。
+        - compute_fm_index函数需要调用compute_confusion_matrix函数来得到混淆矩阵，再根据根据混淆矩阵的真正例、假正例、真反例、假反例计算并返回Rand指数。
+    - MSE类
+        - 该类的__call__调用并返回loss函数。
+        - loss函数依据公式计算并返回真实值与预测值的均方误差。
+    - RMSE类
+        - 该类的__call__调用并返回loss函数。
+        - loss函数依据公式计算并返回真实值与预测值的均方根误差。
+    - Distance类
+        - 该类的__call__调用并返回minkowski_distance函数。
+        - minkowski_distance函数依据公式计算并返回真实值与预测值的闵可夫斯基距离。
+- 本项目中的评估方法与适用的问题以及适用数据集的关系【表述为评估方法（适用的问题）：适用的数据集】
+    - Accuracy（分类问题）：IrisDataset，WineQualityDataset，HeartDiseaseDataSet
+    - F1（分类问题）：HeartDiseaseDataSet
+    - PR（分类问题）：HeartDiseaseDataSet
+    - AUC（分类问题）：HeartDiseaseDataSet
+    - ROC（分类问题）：HeartDiseaseDataSet
+    - FM（聚类问题）：IrisDataset，WineQualityDataset，HeartDiseaseDataSet
+    - Rand（聚类问题）：IrisDataset，WineQualityDataset，HeartDiseaseDataSet
+    - MSE（回归问题）：WineQualityDataset，HeartDiseaseDataSet
+    - RMSE（回归问题）：WineQualityDataset，HeartDiseaseDataSet
+    - Distance（聚类问题）：WineQualityDataset，HeartDiseaseDataSet
 ### （三）前端架构
 
 ### （四）前后端连接架构
