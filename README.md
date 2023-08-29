@@ -170,6 +170,42 @@ Evaluation类有十个子类，分别为Accuracy类，F1类，PR类，AUC类，R
 -EvaluationFactory 类
     -EvaluationFactory 类通过 create_evaluation 方法根据传入的评估指标、真实标签 y_true、预测标签 y_pred、测试数据 x_test 和模型对象创建对应的评估对象，目前支持的评估指标有 auc、accuracy、distance、f1、fm、mse、pr、rmse、roc 和 rand。
 ### （三）前端架构
+####  1. web.html
+- <head>标签
+设置文档的标题为“机器学习”，引入名为"web.css"的样式表文件用于设置页面的样式，名为"client.js"和"selection.js"的JavaScript脚本文件。
+- <body>标签
+<h1>定义一级标题为“机器学习模型评估”，使用<p align=”center”>使得文本居中对齐。
+    - 在id为”selection-area”的模块，包含了一系列的选项：用于用户选择数据集、分割器、分割比例、机器学习模型和模型评估指标。这些选项使用了居中对齐的二级标题，并用<div>和class属性进行包裹和样式控制。
+        - 用于选择数据集的radio按钮，class为"radio-container"，包含iris dataset,wine dataset和heart disease dataset三个选项。
+        - 用于选择分割器的radio按钮，包含set-side method和bootstraping method两个选项。
+        - 用于选择分割比例的radio按钮，包含10%和30%两个选项。
+        - 用于选择机器学习模型的radio按钮，包含KNN,K_means,SVM,GradientBoosting,linear regression,logistic regression,navie bayes,decision tree和random forest九个选项。
+        - 用于选择模型评估指标的radio按钮，包含Accuracy,Distance,AUC,F1,FM,MSE,PR,Rand,RMSE和ROC十个选项。
+    - 在id为“action-area”的模块，创建了一个操作区域，包含了"运行"和"重置"两个按钮。点击"运行"按钮会调用send()函数，点击"重置"按钮会调用resetForm()函数。这些按钮使用<input>标签创建，type属性指定按钮类型，value属性设置按钮显示的文本内容。
+    - 在id为“action-title”的模块，创建了一个带有"运行结果"标题的区域。
+    - 在id为“result-area”的模块，创建了一个用于显示结果的空白区域。
+整体实现了一个网页应用，用户可以通过选择选项来配置机器学习模型评估的各项参数，并点击"运行"按钮来获取相应的评估结果。页面中的样式表和脚本文件将用于控制网页的样式和实现交互功能。
+        
+####  2. web.css
+web.css用于设置选择区域、运行区域和结果显示区域的样式。
+- selection-area 是选择区域的样式，设置了高度为650px，背景色为#f2f2f2（浅灰色）。
+- .radio-container 是一个容器，用于包裹选项按钮。设置了 Flex 布局，并使其内部元素居中对齐和垂直居中。
+- input[type="radio"] 是选项按钮的样式，设置了右边距为5px。
+- action-area 是运行区域的样式，设置了高度为50px，背景色为#ffffff（白色）。
+- result-area 是结果显示区域的样式，设置了高度为300px，背景色为#ffffff（白色）。
+- .evaluationOption, .modelOption, .datasetOption, .splitterOption 是用于设置不同选项的样式，都使用了 Inline-block 布局，并设置了右外边距为10px。
+- .hidden 是一个类名，用于隐藏元素，设置了 display 属性为 none。
+- h1 是标题的样式，设置了字体为"微软雅黑"，居中对齐。
+这些样式通过 ID（以 # 开头）或类名（以 . 开头）来选取对应的元素，并为其设置相应的样式属性。通过这样的设置，可以使选择区域、运行区域和结果显示区域拥有特定的外观和布局。   
+####  3. selection.js
+selection.js用于实现交互的网页界面，包含了一些函数用于更新页面中的选项和元素显示状态，以及重置表单。
+- updateOptions() 函数用于根据选择的数据集来更新显示的选项。根据选择的数据集（通过获取选中的 radio 按钮的值），设置不同选项的显示状态。例如，如果选择的数据集是 "iris"，则将距离选项、MSE 选项和 RMSE 选项隐藏起来；如果选择的数据集是 "heart"，则显示 AUC 选项、F1 选项、PR 选项和 ROC 选项等。
+- updatepercent() 函数用于根据选择的划分方法来更新百分比选项的显示状态。根据选择的划分方法（通过获取选中的 radio 按钮的值），设置百分比选项的显示状态。例如，如果选择的划分方法是 "houldout"，则显示百分比选项；否则隐藏百分比选项。
+- updatedata() 函数用于根据选择的模型来更新数据选项的显示状态。根据选择的模型（通过获取选中的 radio 按钮的值），设置不同数据选项的显示状态。例如，如果选择的模型是 "K_means"、"KNN" 或 "NB"，则显示 iris 选项；如果选择的模型是 "SVM" 或 "LogisticRegression"，则隐藏 wine 选项等。
+- updatedata1() 函数用于根据选择的评估方法来更新数据选项的显示状态。根据选择的评估方法（通过获取选中的 radio 按钮的值），设置不同数据选项的显示状态。例如，如果选择的评估方法是 "accuracy"、"fm" 或 "rand"，则显示 iris 选项；如果选择的评估方法是 "auc"、"f1"、"pr" 或 "roc"，则隐藏 wine 选项等。
+- updatesplitter() 函数用于根据选择的百分比划分方法来更新划分选项的显示状态。根据选择的百分比划分方法（通过获取选中的 radio 按钮的值），设置不同划分选项的显示状态。例如，如果选择的百分比划分方法是 "10%" 或 "30%"，则隐藏 CV 选项和 Bootstraping 选项等。
+- resetForm() 函数用于重置表单，将所有 radio 按钮的选中状态取消，并刷新页面。
+这些函数通常用于在用户与页面中的选项进行交互时，根据选择的结果动态更新页面的显示状态，以提供更好的用户体验。
 
 ### （四）前后端连接架构
 
