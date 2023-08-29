@@ -51,7 +51,7 @@
 ### （一）整体架构
 
 ### （二）后端架构
-> 后端分为数据集，数据分割，模型和评估四个功能模块，每个模块均设置父类，分别为Dataset类，Splitter类，Model类和Evaluation类。  
+> 后端分为数据集，数据分割，模型、评估和工厂模式五个功能模块，每个模块均设置父类，分别为Dataset类，Splitter类，Model类、Evaluation类和Factory类。  
 #### 1. 数据集模块
 Dataset类包含__init__函数，load函数和data_target_split函数：
 - __init__函数，即初始化函数。该函数对路径、数据集、特征和标签进行初始化。
@@ -142,6 +142,16 @@ Evaluation类有十个子类，分别为Accuracy类，F1类，PR类，AUC类，R
     - MSE（回归问题）：WineQualityDataset，HeartDiseaseDataSet
     - RMSE（回归问题）：WineQualityDataset，HeartDiseaseDataSet
     - Distance（聚类问题）：WineQualityDataset，HeartDiseaseDataSet
+#### 5. 工厂模式模块
+定义了一个 Factory 类和三个继承自 Factory 的子类：DataFactory、SplitterFactory 和 ModelFactory，以及一个独立的 EvaluationFactory 类。
+- DataFactory 类
+    - DataFactory 类通过 create_dataset 方法根据传入的数据集名称选择创建对应的数据集对象，目前支持的数据集有 iris、wine 和 heart disease。
+- SplitterFactory 类
+    - SplitterFactory 类通过 create_splitter 方法根据传入的分割器类型、特征矩阵 X、标签向量 y 和分割比例 percent 创建对应的数据集分割对象，目前支持的分割器有 bootstraping 和 holdout。
+-ModelFactory 类
+    -ModelFactory 类通过 create_model 方法根据传入的模型名称创建对应的模型对象，目前支持的模型有 KNN、K_means、Decision Tree、GradientBoosting、LR、SVM、LogisticRegression、NB 和 Random Forest。
+-EvaluationFactory 类
+    -EvaluationFactory 类通过 create_evaluation 方法根据传入的评估指标、真实标签 y_true、预测标签 y_pred、测试数据 x_test 和模型对象创建对应的评估对象，目前支持的评估指标有 auc、accuracy、distance、f1、fm、mse、pr、rmse、roc 和 rand。
 ### （三）前端架构
 
 ### （四）前后端连接架构
