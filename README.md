@@ -179,10 +179,10 @@ Evaluation类有十个子类，分别为Accuracy类，F1类，PR类，AUC类，R
     - DataFactory 类通过 create_dataset 方法根据传入的数据集名称选择创建对应的数据集对象，目前支持的数据集有 iris、wine 和 heart disease。
 - SplitterFactory 类
     - SplitterFactory 类通过 create_splitter 方法根据传入的分割器类型、特征矩阵 X、标签向量 y 和分割比例 percent 创建对应的数据集分割对象，目前支持的分割器有 bootstraping 和 holdout。
--ModelFactory 类
-    -ModelFactory 类通过 create_model 方法根据传入的模型名称创建对应的模型对象，目前支持的模型有 KNN、K_means、Decision Tree、GradientBoosting、LR、SVM、LogisticRegression、NB 和 Random Forest。
--EvaluationFactory 类
-    -EvaluationFactory 类通过 create_evaluation 方法根据传入的评估指标、真实标签 y_true、预测标签 y_pred、测试数据 x_test 和模型对象创建对应的评估对象，目前支持的评估指标有 auc、accuracy、distance、f1、fm、mse、pr、rmse、roc 和 rand。
+- ModelFactory 类
+    - ModelFactory 类通过 create_model 方法根据传入的模型名称创建对应的模型对象，目前支持的模型有 KNN、K_means、Decision Tree、GradientBoosting、LR、SVM、LogisticRegression、NB 和 Random Forest。
+- EvaluationFactory 类
+    - EvaluationFactory 类通过 create_evaluation 方法根据传入的评估指标、真实标签 y_true、预测标签 y_pred、测试数据 x_test 和模型对象创建对应的评估对象，目前支持的评估指标有 auc、accuracy、distance、f1、fm、mse、pr、rmse、roc 和 rand。
 ### （三）前端架构
 ####  1. web.html
 - <head>标签
